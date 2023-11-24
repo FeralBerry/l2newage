@@ -150,11 +150,7 @@
                     pass: pass,
                 },
                 success: function (data){
-                    if(data === 'highfive'){
-                        alert('Аккаунт на сервере HighFive успешно зарегистрирован!!!');
-                    } else if(data === 'fafurion'){
-                        alert('Аккаунт на сервере Fafurion успешно зарегистрирован!!!');
-                    }
+                    alert(data);
                 },
             });
         });
