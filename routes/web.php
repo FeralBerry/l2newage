@@ -26,9 +26,11 @@ Route::group($front,function(){
     Route::match(['GET','POST'],'/payment/create',['uses' => 'PaymentController@create','as' => 'payment-create']);
     Route::match(['GET'],'/payment/success/{id}',['uses' => 'PaymentController@success','as' => 'payment-success']);
     Route::match(['GET'],'/payment/check',['uses' => 'PaymentController@check','as' => 'payment-check']);
-    //Правила
+    // Правила
     Route::get('/site/rules',['uses' => 'RulesController@site','as' => 'site-rules-index']);
     Route::get('/game/rules',['uses' => 'RulesController@game','as' => 'game-rules-index']);
+    //
+    Route::get('/verified/user/{link}',['uses' => 'VerifiedController@index','as' => 'verified-user-index']);
     // База знаний
     $knowledge = [
         'namespace' => 'Knowledge',

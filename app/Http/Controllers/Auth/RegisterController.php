@@ -65,14 +65,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $str = $data['name']." ".$data['email'];
+        $verified_link = md5($str);
         $array = [
                 'title' => "L2NewAge - crete web account",
-                'name' => "L2NewAge",
-
+                'name' => $data['name'],
+                'verified_link' => $verified_link,
+                'email' => $data['email'],
+                'password' => $data['password']
             ];
         Mail::send('emails.reg', $array, function($m) use($data){
-            $m->getHeaders()->addTextHeader("Content-type", 'text/html; charset=iso-8859-1');
             $m->getHeaders()->addTextHeader("List-Unsubscribe", 'https://l2newage.ru/');
+            $m->getHeaders()->addTextHeader("script-src", 'self');
             $m->to($data['email'], 'Tutorials Point')
                 ->subject('Регистрация игрового аккаунта L2NewAge');
             $m->from('info@l2newage.ru','L2NewAge - crete web account');
@@ -81,6 +85,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'verified_link' => $verified_link
         ]);
     }
 }
