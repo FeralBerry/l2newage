@@ -31,7 +31,7 @@ Route::group($front,function(){
     Route::get('/game/rules',['uses' => 'RulesController@game','as' => 'game-rules-index']);
     // База знаний
     $knowledge = [
-        'namespace' => 'App\Http\Controllers\Front\Knowledge',
+        'namespace' => 'Knowledge',
         'prefix' => 'knowledge',
     ];
     Route::group($knowledge,function(){

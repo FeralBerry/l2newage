@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -64,6 +65,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $array = [
+                'title' => "L2NewAge - crete web account",
+                'name' => "L2NewAge",
+
+            ];
+        Mail::send('emails.reg', $array, function($m) use($data){
+            $m->getHeaders()->addTextHeader("Content-type", 'text/html; charset=iso-8859-1');
+            $m->getHeaders()->addTextHeader("List-Unsubscribe", 'https://l2newage.ru/');
+            $m->to($data['email'], 'Tutorials Point')
+                ->subject('Регистрация игрового аккаунта L2NewAge');
+            $m->from('info@l2newage.ru','L2NewAge - crete web account');
+        });
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
