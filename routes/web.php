@@ -133,6 +133,9 @@ Route::group($back,function(){
         Route::match(['GET','POST'],'/forum/add',['uses' => 'ForumController@add','as'=>'admin-forum-add']);
         Route::match(['GET','POST'],'/forum/edit/{id}',['uses' => 'ForumController@edit','as'=>'admin-forum-edit']);
         Route::match(['GET','POST'],'/forum/delete/{id}',['uses' => 'ForumController@delete','as'=>'admin-forum-delete']);
+        //rules
+        Route::get('/rules/{id}',['uses' => 'RulesController@index','as'=>'admin-rules-index']);
+        Route::post('/rules/edit/{id}',['uses' => 'RulesController@edit','as'=>'admin-rules-edit']);
     });
 });
 
