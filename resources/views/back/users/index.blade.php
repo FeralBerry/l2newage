@@ -8,10 +8,7 @@
         <div class="container" role="tabpanel">
             <ul class="nav nav-tabs mt-50" role="tablist">
                 <li role="presentation" class="active">
-                    <a href="#tab-all" aria-controls="tab-all" role="tab" data-toggle="tab" aria-expanded="true">Главная</a>
-                </li>
-                <li role="presentation">
-                    <a href="#tab-highfive" aria-controls="tab-highfive" role="tab" data-toggle="tab" aria-expanded="true">HighFive</a>
+                    <a href="#tab-reg" aria-controls="tab-all" role="tab" data-toggle="tab" aria-expanded="true">Главная</a>
                 </li>
                 <li role="presentation">
                     <a href="#tab-item" aria-controls="tab-item" role="tab" data-toggle="tab" aria-expanded="true">Аккаунты</a>
@@ -37,7 +34,7 @@
             <div role="tabpanel">
                 <div class="tab-content">
                     <!-- All Matches -->
-                    <div role="tabpanel" class="tab-pane active" id="tab-all">
+                    <div role="tabpanel" class="tab-pane active" id="tab-reg">
                         <div class="col-sm-offset-2 col-sm-10">
                         <h3>Создание игрового аккаунта.</h3>
                         <p>Все игровые аккаунты будут привязаны к 1 аккаунту на сайте.</p>
@@ -62,21 +59,6 @@
                                             <div class="youplay-input">
                                                 <input class="input-en" type="password" id="pass" name="pass" placeholder="Пароль:">
                                                 <a href="#" id="password_control" class="password-control" onclick="return show_hide_password(this);"><i class="fa fa-eye-slash"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-5">
-                                            <div class="youplay-radio">
-                                                <input type="radio" id="higtfive" name="server" checked value="1">
-                                                <label for="higtfive">Сервер HighFive</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="youplay-radio">
-                                                <input type="radio" id="fafurion" name="server" value="2">
-                                                <label for="fafurion">Сервер Fafurion</label>
                                             </div>
                                         </div>
                                     </div>
@@ -119,7 +101,7 @@
                                                         @if($item->img !== NULL)
                                                             <img src="{{ asset('front/img/item') }}/{{ $item->img }}" width="80" height="80" alt="">
                                                         @else
-                                                            <img src="assets/images/avatar-user-1.png" width="80" height="80" alt="">
+                                                            <img src="{{ asset('front//images/avatar-user-1.png') }}" width="80" height="80" alt="">
                                                         @endif
                                                     </div>
                                                 </a>

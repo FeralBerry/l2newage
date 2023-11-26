@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'rate_shop',
+        'verified_link',
         'avatar',
     ];
 

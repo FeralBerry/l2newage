@@ -26,12 +26,14 @@ Route::group($front,function(){
     Route::match(['GET','POST'],'/payment/create',['uses' => 'PaymentController@create','as' => 'payment-create']);
     Route::match(['GET'],'/payment/success/{id}',['uses' => 'PaymentController@success','as' => 'payment-success']);
     Route::match(['GET'],'/payment/check',['uses' => 'PaymentController@check','as' => 'payment-check']);
-    //Правила
+    // Правила
     Route::get('/site/rules',['uses' => 'RulesController@site','as' => 'site-rules-index']);
     Route::get('/game/rules',['uses' => 'RulesController@game','as' => 'game-rules-index']);
+    //
+    Route::get('/verified/user/{link}',['uses' => 'VerifiedController@index','as' => 'verified-user-index']);
     // База знаний
     $knowledge = [
-        'namespace' => 'App\Http\Controllers\Front\Knowledge',
+        'namespace' => 'Knowledge',
         'prefix' => 'knowledge',
     ];
     Route::group($knowledge,function(){
@@ -55,7 +57,7 @@ Route::group($back,function(){
         Route::match(['GET','POST'],'/new/password',['uses' => 'IndexController@newPassword','as'=>'users-new-password']);
         Route::match(['GET','POST'],'/new/phone',['uses' => 'IndexController@newPhone','as'=>'users-new-phone']);
         //Регистрация аккаунта
-        Route::match(['GET','POST'],'/reg',['uses' => 'RegisterAccountController@reg','as'=>'users-reg-account']);
+        Route::post('/reg',['uses' => 'RegisterAccountController@reg','as'=>'users-reg-account']);
         //Корзина
         Route::match(['GET','POST'],'/cart',['uses' => 'CartController@index','as' => 'cart-index']);
         Route::match(['GET','POST'],'/cart/add/{id}',['uses' => 'CartController@add','as' => 'cart-add']);
@@ -131,6 +133,9 @@ Route::group($back,function(){
         Route::match(['GET','POST'],'/forum/add',['uses' => 'ForumController@add','as'=>'admin-forum-add']);
         Route::match(['GET','POST'],'/forum/edit/{id}',['uses' => 'ForumController@edit','as'=>'admin-forum-edit']);
         Route::match(['GET','POST'],'/forum/delete/{id}',['uses' => 'ForumController@delete','as'=>'admin-forum-delete']);
+        //rules
+        Route::get('/rules/{id}',['uses' => 'RulesController@index','as'=>'admin-rules-index']);
+        Route::post('/rules/edit/{id}',['uses' => 'RulesController@edit','as'=>'admin-rules-edit']);
     });
 });
 

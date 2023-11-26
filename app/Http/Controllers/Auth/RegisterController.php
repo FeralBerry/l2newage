@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -64,10 +65,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $str = $data['name']." ".$data['email'];
+        $verified_link = md5($str);
+        $array = [
+                'title' => "L2NewAge - crete web account",
+                'name' => $data['name'],
+                'verified_link' => $verified_link,
+                'email' => $data['email'],
+                'password' => $data['password']
+            ];
+        Mail::send('emails.reg', $array, function($m) use($data){
+            $m->getHeaders()->addTextHeader("List-Unsubscribe", 'https://l2newage.ru/');
+            $m->getHeaders()->addTextHeader("script-src", 'self');
+            $m->to($data['email'], 'Tutorials Point')
+                ->subject('Регистрация игрового аккаунта L2NewAge');
+            $m->from('info@l2newage.ru','L2NewAge - crete web account');
+        });
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'verified_link' => $verified_link
         ]);
     }
 }

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Models\Fafurion;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Test extends Model
+class Rules extends Model
 {
-    protected $connection = 'mysql3';
-    protected $table = 'test';
+    protected $table = 'rule';
     protected $fillable = [
         'id',
-        'name',
+        'description',
         'created_at',
         'updated_at',
     ];
