@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 $front = [
@@ -27,8 +28,7 @@ Route::group($front,function(){
     Route::match(['GET'],'/payment/success/{id}',['uses' => 'PaymentController@success','as' => 'payment-success']);
     Route::match(['GET'],'/payment/check',['uses' => 'PaymentController@check','as' => 'payment-check']);
     // Правила
-    Route::get('/site/rules',['uses' => 'RulesController@site','as' => 'site-rules-index']);
-    Route::get('/game/rules',['uses' => 'RulesController@game','as' => 'game-rules-index']);
+    Route::get('/rules/{id}',['uses' => 'RulesController@index','as' => 'rules-index']);
     //
     Route::get('/verified/user/{link}',['uses' => 'VerifiedController@index','as' => 'verified-user-index']);
     // База знаний

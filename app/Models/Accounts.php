@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Models\HighFive;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Accounts extends Model
 {
-    protected $connection = 'highfive';
+    protected $connection = 'l2flame';
     protected $table = 'accounts';
     protected $fillable = [
-        'id',
         'login',
         'password',
         'email',
@@ -23,6 +22,5 @@ class Accounts extends Model
         'hop3',
         'hop4',
         'created_time',
-        'updated_at',
     ];
 }

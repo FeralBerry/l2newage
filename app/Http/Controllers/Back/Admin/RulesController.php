@@ -13,21 +13,22 @@ class RulesController extends AdminBaseController
             ->where('id',$id);
     }
     public function index($id){
-        if($this->takeRules($id)->get() == NULL){
+        $rule = $this->takeRules($id)->get();
+        if($rule[0] == NULL){
             $this->takeRules($id)->insert([
                 'id' => $id,
                 'description' => null
             ]);
         }
         $data = array_merge($this->data(),[
-                'rules' => $this->takeRules($id)->get()
+                'rules' => $rule[0]
         ]);
         return view('back.admin.rule.index',$data);
     }
     public function edit(Request $request,$id){
         $this->takeRules($id)
             ->update([
-                'description' => $request['description']
+                'description' => $request['rules']
             ]);
         return "success";
     }

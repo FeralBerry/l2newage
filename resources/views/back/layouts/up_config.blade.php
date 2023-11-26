@@ -30,3 +30,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" />
 <!-- RTL (uncomment this to enable RTL support) -->
 <!-- <link rel="stylesheet" type="text/css" href="../assets/youplay/css/youplay-rtl.css" /> -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#rules'
+    });
+</script>

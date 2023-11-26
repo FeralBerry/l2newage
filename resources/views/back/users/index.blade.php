@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                        <p>Нажав создать вы соглашаетесь с <a href="{{ route('site-rules-index') }}">правилами сайта</a> и <a href="{{ route('game-rules-index') }}">правилами игры</a></p>
+                                        <p>Нажав создать вы соглашаетесь с <a href="{{ route('rules-index',1) }}">правилами сайта</a> и <a href="{{ route('rules-index',2) }}">правилами игры</a></p>
                                         </div>
                                     </div>
                                     <div class="form-group">

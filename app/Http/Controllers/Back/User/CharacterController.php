@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Back\User;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Fafurion\Characters as FafurionChar;
 use App\Models\HighFive\Characters as HighFiveChar;
 use App\Models\Item;
 use App\Models\PaidItem;
@@ -58,46 +57,6 @@ class CharacterController extends Controller
                                             'owner_id' => $request['char'],
                                             'count' => $request['count'],
                                             'item_id' => $game_id,
-                                        ]);
-                                    if($count - $request['count'] == 0){
-                                        DB::table('paid_item')
-                                            ->where('id',$request['id'])
-                                            ->where('user_id',Auth::user()->id)
-                                            ->update([
-                                                'postponed' => 1,
-                                            ]);
-                                    } else {
-                                        DB::table('paid_item')
-                                            ->where('id',$request['id'])
-                                            ->where('user_id',Auth::user()->id)
-                                            ->update([
-                                                'count' => $count - $request['count'],
-                                            ]);
-                                    }
-                                    return 'Товары успешно отправлены на персонажа!';
-                                }
-                                if($online == 1){
-                                    return 'Пока персонаж онлайн передать предмет невозможно!';
-                                }
-                            }
-                            if($request['type'] == 2){
-                                $fafurion_char = FafurionChar::all()
-                                    ->where('charId',$request['char']);
-                                foreach ($fafurion_char as $char){
-                                    $online = $char->online;
-                                }
-                                if($online == 0){
-                                    $items = DB::connection('fafurion')
-                                        ->table('items')
-                                        ->max('object_id');
-                                    DB::connection('fafurion')
-                                        ->table('items')
-                                        ->insert([
-                                            'owner_id' => $request['char'],
-                                            'count' => $request['count'],
-                                            'item_id' => $game_id,
-                                            'object_id' => $items + 1,
-                                            'loc' => 'INVENTORY'
                                         ]);
                                     if($count - $request['count'] == 0){
                                         DB::table('paid_item')

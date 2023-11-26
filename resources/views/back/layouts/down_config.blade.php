@@ -31,4 +31,25 @@
         });
     }
 </script>
-
+<script>
+    function rules_change(id) {
+        var iframe = document.getElementById("rules_ifr");
+        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        var rules = iframeDocument.getElementById("tinymce").innerHTML;
+        $.ajax({
+            url: "{{ route('admin-index') }}/rules/edit/" + id,
+            dataType: 'html',
+            method: 'post',
+            data: {
+                _token: '{{ csrf_token() }}',
+                rules: rules,
+            },
+            success: function (data) {
+                if(data === "success"){
+                    alert("Успешно изменено")
+                }
+                document.getElementById('rul_desc' + id).innerHTML = rules;
+            }
+        });
+    }
+</script>
