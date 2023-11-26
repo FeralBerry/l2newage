@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\DB;
 class NewsController extends FrontController
 {
     private $perpage = 5;
-    public function index()
-    {
+    public function index(){
         $news = DB::connection('mysql')
             ->table('news')
             ->paginate($this->perpage);
@@ -26,12 +25,12 @@ class NewsController extends FrontController
             ]);
         return view('front.news.index',$data);
     }
-    public function article($id)
-    {
+    public function article($id){
         $title = '';
         $news = DB::connection('mysql')
             ->table('news')
             ->where('id',$id)
+            ->orderBy('created_at')
             ->get();
         $tag_name = TagName::all();
         foreach ($news as $new){
@@ -60,6 +59,7 @@ class NewsController extends FrontController
         $news = DB::connection('mysql')
             ->table('news')
             ->where('name','LIKE',"%{$search}%")
+            ->orderBy('created_at')
             ->paginate($this->perpage);
         $tag_name = TagName::all();
         $data = array_merge($this->data(),
@@ -79,6 +79,7 @@ class NewsController extends FrontController
         $news = DB::connection('mysql')
             ->table('news')
             ->where('tag_id','LIKE',"%{$id}%")
+            ->orderBy('created_at')
             ->paginate($this->perpage);
         $tag_name = TagName::all();
         $data = array_merge($this->data(),

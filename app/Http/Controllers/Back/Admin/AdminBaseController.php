@@ -19,4 +19,22 @@ class AdminBaseController extends BaseController
         ];
         return $data;
     }
+    protected function checkFileExists($name){
+        if(File_exists(public_path('back/seo/img/'. $name))){
+            return true;
+        }
+        return false;
+    }
+    protected function checkNull($name){
+        if($name !== '' && $name !== NULL){
+            return true;
+        }
+        return false;
+    }
+    protected function fileMove($file,$path){
+        $img_name = time().'.'.$file->getClientOriginalExtension();
+        $destinationPath = public_path($path);
+        $file->move($destinationPath, $img_name);
+        return $img_name;
+    }
 }

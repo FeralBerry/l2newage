@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class FRAccountsController extends AdminBaseController
+class AccountsController extends AdminBaseController
 {
     public function index()
     {

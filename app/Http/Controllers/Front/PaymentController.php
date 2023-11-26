@@ -23,8 +23,7 @@ class PaymentController extends FrontController
         $client->setAuth($shop_id, $token);
         return $client;
     }
-    public function index()
-    {
+    public function index(){
         $data = array_merge($this->data(),
             [
 

@@ -18,7 +18,12 @@ class VerifiedController extends FrontController
                     return view('back.users.already_verified',$user);
                 } else {
                     if($user !== null){
-
+                        DB::connection('mysql')
+                            ->table('users')
+                            ->where('verified_link','=', $link)
+                            ->update([
+                                'email_verified_at' => now()
+                            ]);
                         return view('back.users.success_verified',$user);
                     } else {
                         return view('back.users.error_verified');

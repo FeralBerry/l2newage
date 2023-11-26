@@ -279,7 +279,7 @@
                                             </tbody>
                                         </table>
                                         <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">Для завершения завершения регистрации на сайте нажмите кнопку или перейдите по ссылке
-                                            <a href="{{ route('verified-user-index',$verified_link) }}">{{ route('verified-user-index',$verified_link) }}</a></p>
+                                            <a style="color:#00A8FF" href="{{ route('verified-user-index',$verified_link) }}">{{ route('verified-user-index',$verified_link) }}</a></p>
                                         <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                             <tbody>
                                             <tr>
@@ -292,8 +292,8 @@
                                         <table class="btn btn-red-500 rounded-full px-6 w-full w-lg-48" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-radius: 9999px; border-collapse: separate !important; width: 192px;" width="192">
                                             <tbody>
                                             <tr>
-                                                <td style="line-height: 24px; font-size: 16px; border-radius: 9999px; width: 192px; margin: 0;" align="center" bgcolor="#dc3545" width="192">
-                                                    <a href="{{ route('verified-user-index',$verified_link) }}" style="color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 9999px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; background-color: #dc3545; padding: 8px 24px; border: 1px solid #dc3545;">Подтвердить</a>
+                                                <td style="text-align: center;line-height: 24px; font-size: 16px; border-radius: 9999px; width: 192px; margin: 0;" align="center" bgcolor="#dc3545" width="192">
+                                                    <a href="{{ route('verified-user-index',$verified_link) }}" style="color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 9999px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; background-color: #dc3545; padding: 8px 24px; border: 1px solid #dc3545;">Завершить регистрацию</a>
                                                 </td>
                                             </tr>
                                             </tbody>
