@@ -20,7 +20,7 @@ class AdminBaseController extends BaseController
         return $data;
     }
     protected function checkFileExists($name){
-        if(File_exists(public_path('back/seo/img/'. $name))){
+        if(File_exists(public_path($name))){
             return true;
         }
         return false;
@@ -31,7 +31,7 @@ class AdminBaseController extends BaseController
         }
         return false;
     }
-    protected function fileMove($file,$path){
+    protected function fileMove($file, $path){
         $img_name = time().'.'.$file->getClientOriginalExtension();
         $destinationPath = public_path($path);
         $file->move($destinationPath, $img_name);

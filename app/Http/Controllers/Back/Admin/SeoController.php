@@ -7,16 +7,24 @@ use Illuminate\Support\Facades\DB;
 
 class SeoController extends AdminBaseController
 {
+    private $perPage = 20;
     private $path = 'back/seo/img/';
     private function imgDelete($name){
         unlink(public_path($this->path. $name));
     }
+    private function seoDB($id = null){
+        if($id == null){
+            return DB::connection('mysql')
+                ->table('seo');
+        } else {
+            return DB::connection('mysql')
+                ->table('seo')
+                ->where('id',$id);
+        }
+    }
     public function index(){
-        $seo = DB::connection('mysql')
-            ->table('seo')
-            ->paginate(20);
         $data = array_merge($this->data(),[
-            'seo' => $seo
+            'seo' => $this->seoDB()->paginate($this->perPage)
         ]);
         return view('back.admin.seo.index',$data);
     }
@@ -25,69 +33,48 @@ class SeoController extends AdminBaseController
         if ($request->hasFile('img')) {
             $img_name = $this->fileMove($request->file('img'),$this->path);
         }
-        DB::connection('mysql')
-            ->table('seo')
+        $this->seoDB()
             ->insert([
                 'description' => $request['description'],
                 'keywords' => $request['keywords'],
                 'title' => $request['title'],
-                'url' => $request['url'],
+                'route_name' => $request['route_name'],
                 'img' => $img_name
             ]);
-        $data = array_merge($this->data(),[
-
-        ]);
-        return view('back.admin.seo.add',$data);
+        return redirect()->route('admin-seo-index');
     }
     public function edit(Request $request, $id){
-        if($request->isMethod('post')){
-            $img_name = '';
-            if ($request->hasFile('img')) {
-                if($this->checkNull($request['old_img'])){
-                    if($this->checkFileExists($request['old_img'])){
-                        $this->imgDelete($request['old_img']);
-                        $img_name = $this->fileMove($request->file('img'),$this->path);
-                    } else {
-                        $img_name = $this->fileMove($request->file('img'),$this->path);
-                    }
+        $img_name = '';
+        if ($request->hasFile('img')) {
+            if($this->checkNull($request['old_img'])){
+                if($this->checkFileExists($request['old_img'])){
+                    $this->imgDelete($request['old_img']);
+                    $img_name = $this->fileMove($request->file('img'),$this->path);
                 } else {
                     $img_name = $this->fileMove($request->file('img'),$this->path);
                 }
+            } else {
+                $img_name = $this->fileMove($request->file('img'),$this->path);
             }
-            DB::connection('mysql')
-                ->table('seo')
-                ->where('id',$id)
-                ->update([
-                    'description' => $request['description'],
-                    'keywords' => $request['keywords'],
-                    'title' => $request['title'],
-                    'url' => $request['url'],
-                    'img' => $img_name
-                ]);
         }
-        $seo = DB::connection('mysql')
-            ->table('seo')
-            ->where('id',$id)
-            ->get();
-        $data = array_merge($this->data(),[
-            'seo' => $seo
-        ]);
-        return view('back.admin.seo.edit',$data);
+        $this->seoDB($id)
+            ->update([
+                'description' => $request['description'],
+                'keywords' => $request['keywords'],
+                'title' => $request['title'],
+                'route_name' => $request['route_name'],
+                'img' => $img_name
+            ]);
+        return 'Успешно изменена запись SEO';
     }
     public function delete($id){
-        $seo = DB::connection('mysql')
-            ->table('seo')
-            ->where('id',$id)
-            ->get();
-        foreach ($seo as $item){
-            if($this->checkFileExists($item->name)){
-                $this->imgDelete($item->name);
+        foreach ($this->seoDB($id)->get() as $item){
+            if($this->checkFileExists($this->path . $item->img) && $item->img !== NULL && $item->img !== ""  ){
+                $this->imgDelete($item->img);
             }
         }
-        DB::connection('mysql')
-            ->table('seo')
-            ->where('id',$id)
+        $this->seoDB($id)
             ->delete();
-        return redirect()->route('admin-seo-index');
+        return "Успешно удалена запись SEO";
     }
 }

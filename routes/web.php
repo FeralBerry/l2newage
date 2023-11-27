@@ -78,17 +78,17 @@ Route::group($back,function(){
         'middleware' => ['admin'],
     ];
     Route::group($admin,function(){
-        Route::match(['GET','POST'],'/',['uses' => 'IndexController@index','as'=>'admin-index']);
+        Route::get('/',['uses' => 'IndexController@index','as'=>'admin-index']);
         //Users
-        Route::match(['GET','POST'],'/users',['uses' => 'UsersController@index','as'=>'admin-users-index']);
-        Route::match(['GET','POST'],'/users/add',['uses' => 'UsersController@add','as'=>'admin-users-add']);
-        Route::match(['GET','POST'],'/users/edit/{id}',['uses' => 'UsersController@edit','as'=>'admin-users-edit']);
-        Route::match(['GET','POST'],'/users/delete/{id}',['uses' => 'UsersController@delete','as'=>'admin-users-delete']);
+        Route::get('/users',['uses' => 'UsersController@index','as'=>'admin-users-index']);
+        Route::post('/users/add',['uses' => 'UsersController@add','as'=>'admin-users-add']);
+        Route::post('/users/edit/{id}',['uses' => 'UsersController@edit','as'=>'admin-users-edit']);
+        Route::post('/users/delete/{id}',['uses' => 'UsersController@delete','as'=>'admin-users-delete']);
         //Seo
-        Route::match(['GET','POST'],'/seo',['uses' => 'SeoController@index','as'=>'admin-seo-index']);
-        Route::match(['GET','POST'],'/seo/add',['uses' => 'SeoController@add','as'=>'admin-seo-add']);
-        Route::match(['GET','POST'],'/seo/edit/{id}',['uses' => 'SeoController@edit','as'=>'admin-seo-edit']);
-        Route::match(['GET','POST'],'/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
+        Route::get('/seo',['uses' => 'SeoController@index','as'=>'admin-seo-index']);
+        Route::post('/seo/add',['uses' => 'SeoController@add','as'=>'admin-seo-add']);
+        Route::post('/seo/edit/{id}',['uses' => 'SeoController@edit','as'=>'admin-seo-edit']);
+        Route::post('/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
         //Accounts
         Route::match(['GET','POST'],'/hf/accounts',['uses' => 'HFAccountsController@index','as'=>'admin-hf-accounts-index']);
         Route::match(['GET','POST'],'/hf/accounts/add',['uses' => 'HFAccountsController@add','as'=>'admin-hf-accounts-add']);

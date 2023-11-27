@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class IndexController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $highfive = DB::connection('l2flame')
             ->table('accounts')
             ->where('email',Auth::user()->email)

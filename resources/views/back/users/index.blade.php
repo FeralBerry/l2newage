@@ -35,10 +35,12 @@
                 <div class="tab-content">
                     <!-- All Matches -->
                     <div role="tabpanel" class="tab-pane active" id="tab-reg">
+                        @if(Auth::user()->email_verified_at !== NULL)
                         <div class="col-sm-offset-2 col-sm-10">
                         <h3>Создание игрового аккаунта.</h3>
                         <p>Все игровые аккаунты будут привязаны к 1 аккаунту на сайте.</p>
-                        <p>Аккаунты к разным серверам могут быть одинаковыми.</p>
+                        <p>Создавать дополнительные аккаунты на сайте не обязательно.
+                            На 1 аккаунте на сайте можно зарегистрировать много аккаунтов игровых.</p>
                         </div>
                         <div class="youplay-matches-list">
                             <form>
@@ -48,7 +50,7 @@
                                         <label class="control-label col-sm-2" for="cur_password">Логин:</label>
                                         <div class="col-sm-10">
                                             <div class="youplay-input">
-                                                <input class="input-en" type="text" id="login" name="login" placeholder="Логин:">
+                                                <input class="input-en" maxlength="29"  minlength="4" type="text" id="login" name="login" placeholder="Логин:">
                                             </div>
                                         </div>
                                     </div>
@@ -75,6 +77,14 @@
                                 </div>
                             </form>
                         </div>
+                        @else
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <p>Для получения возможности создавать игровые аккаунты, нужно пройти проверку почты из письма,
+                                    высланного на адрес указаный при регистрации.</p>
+                                <p>Создавать дополнительные аккаунты на сайте не обязательно.
+                                    На 1 аккаунте на сайте можно зарегистрировать много аккаунтов игровых.</p>
+                            </div>
+                        @endif
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tab-highfive">
                         <div class="youplay-matches-list">

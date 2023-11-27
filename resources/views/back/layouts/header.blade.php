@@ -20,7 +20,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="#">Seo</a></li>
+                            <li><a href="{{ route('admin-seo-index') }}">Seo</a></li>
                             <li><a href="#">Пользователи</a></li>
                             <li><a href="#">Подарки</a></li>
                         </ul>
@@ -61,8 +61,9 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="#">Правила пользования сайтом</a></li>
-                            <li><a href="#">Правила пользования игрой</a></li>
+                            <li><a href="{{ route('admin-rules-index',1) }}">Лицензионное соглашение</a></li>
+                            <li><a href="{{ route('admin-rules-index',2) }}">Правила пользования</a></li>
+                            <li><a href="{{ route('admin-rules-index',3) }}">Условия установки дополнительных компонентов</a></li>
                         </ul>
                     </div>
                 </li>
