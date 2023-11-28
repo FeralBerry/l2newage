@@ -52,7 +52,7 @@ Route::group($back,function(){
         'prefix' => 'users'
     ];
     Route::group($user,function(){
-        Route::match(['GET','POST'],'/',['uses' => 'IndexController@index','as'=>'users-index']);
+        Route::get('/',['uses' => 'IndexController@index','as'=>'users-index']);
         Route::match(['GET','POST'],'/profile',['uses' => 'IndexController@index','as'=>'users-profile']);
         Route::match(['GET','POST'],'/new/password',['uses' => 'IndexController@newPassword','as'=>'users-new-password']);
         Route::match(['GET','POST'],'/new/phone',['uses' => 'IndexController@newPhone','as'=>'users-new-phone']);
@@ -64,7 +64,7 @@ Route::group($back,function(){
         Route::match(['GET','POST'],'/cart/delete/{id}',['uses' => 'CartController@delete','as' => 'cart-delete']);
         Route::match(['GET','POST'],'/cart/update',['uses' => 'CartController@update','as' => 'cart-update-price']);
         //перевод итемов на персонажа
-        Route::match(['GET','POST'],'/character/add/item',['uses' => 'CharacterController@onTheCharacter','as' => 'on-the-character']);
+        Route::post('/character/add/item',['uses' => 'CharacterController@addItem','as' => 'user-character-add-item']);
         //Forum
         Route::match(['POST'],'/forum/add',['uses' => 'ForumController@add', 'as' => 'forum-add']);
         Route::match(['GET','POST'],'/forum/post/add/{id}/{forum_id}',['uses' => 'ForumController@addPost', 'as' => 'forum-post-add']);
@@ -89,15 +89,6 @@ Route::group($back,function(){
         Route::post('/seo/add',['uses' => 'SeoController@add','as'=>'admin-seo-add']);
         Route::post('/seo/edit/{id}',['uses' => 'SeoController@edit','as'=>'admin-seo-edit']);
         Route::post('/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
-        //Accounts
-        Route::match(['GET','POST'],'/hf/accounts',['uses' => 'HFAccountsController@index','as'=>'admin-hf-accounts-index']);
-        Route::match(['GET','POST'],'/hf/accounts/add',['uses' => 'HFAccountsController@add','as'=>'admin-hf-accounts-add']);
-        Route::match(['GET','POST'],'/hf/accounts/edit/{id}',['uses' => 'HFAccountsController@edit','as'=>'admin-hf-accounts-edit']);
-        Route::match(['GET','POST'],'/hf/accounts/delete/{id}',['uses' => 'HFAccountsController@delete','as'=>'admin-hf-accounts-delete']);
-        Route::match(['GET','POST'],'/fr/accounts',['uses' => 'FRAccountsController@index','as'=>'admin-fr-accounts-index']);
-        Route::match(['GET','POST'],'/fr/accounts/add',['uses' => 'FRAccountsController@add','as'=>'admin-fr-accounts-add']);
-        Route::match(['GET','POST'],'/fr/accounts/edit/{id}',['uses' => 'FRAccountsController@edit','as'=>'admin-fr-accounts-edit']);
-        Route::match(['GET','POST'],'/fr/accounts/delete/{id}',['uses' => 'FRAccountsController@delete','as'=>'admin-fr-accounts-delete']);
         //orders
         Route::match(['GET','POST'],'/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
         Route::match(['GET','POST'],'/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);

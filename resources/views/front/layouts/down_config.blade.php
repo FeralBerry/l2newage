@@ -57,49 +57,6 @@
             document.getElementById("num_h"+id).value = Number(num_value) - 1;
         }
     }
-    function character_highfive(id,type){
-        var char = document.querySelector('input[name="char_h"]:checked').value;
-        var count = document.getElementById("num_h"+id).value;
-        var count_item = document.getElementById('count_h'+id).innerHTML;
-        $.ajax({
-            url: "{{ route('on-the-character') }}",
-            dataType: 'html',
-            method: 'post',
-            data: {
-                _token: '{{ csrf_token() }}',
-                char: char,
-                id: id,
-                type: type,
-                count: count,
-            },
-            success: function (data) {
-                if(data === 'Не верное значение персонажа!'){
-                    alert(data);
-                } else if(data === 'Товары успешно отправлены на персонажа!'){
-                    if((Number(count_item.replace('Количество: ','')) - count) === 0){
-                        var parent_highfive = document.getElementById("items_highfive");
-                        var child_highfive = document.getElementById("item_highfive"+id);
-                        parent_highfive.removeChild(child_highfive);
-                        var parent_fafurion = document.getElementById("items_fafurion");
-                        var child_fafurion = document.getElementById("item_fafurion"+id);
-                        parent_fafurion.removeChild(child_fafurion);
-                    }
-                    if((Number(count_item.replace('Количество: ','')) - count) > 0) {
-                        sum = Number(count_item.replace('Количество: ','')) - count;
-                        if(document.getElementById('count_h'+id) != null){
-                            document.getElementById('count_h'+id).innerHTML = 'Количество: ' + sum;
-                        }
-                        if(document.getElementById('count_f'+id) != null){
-                            document.getElementById('count_f'+id).innerHTML = 'Количество: ' + sum;
-                        }
-                    }
-                    alert(data);
-                } else {
-                    alert(data);
-                }
-            },
-        });
-    }
     if(typeof youplay !== 'undefined') {
         youplay.init({
             // enable parallax
@@ -441,6 +398,32 @@
             });
         });
     });
-
+    $(document).ready(function(){
+        $('#move_character').click(function (){
+            let char = $(".char:checked").val();
+            let elem_id = '';
+            let elem_count = '';
+            document.querySelectorAll('.item').forEach(function(elem) {
+                if(elem.checked){
+                    elem_id = elem_id + elem.value + ' ';
+                    elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
+                }
+            });
+            $.ajax({
+                url: "{{ route('user-character-add-item') }}",
+                dataType: 'html',
+                method: 'post',
+                data:{
+                    _token: '{{ csrf_token() }}',
+                    item_id: elem_id,
+                    item_count: elem_count,
+                    char: char,
+                },
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+    });
 </script>
 

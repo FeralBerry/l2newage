@@ -14,34 +14,30 @@ use Illuminate\Support\Facades\Hash;
 class IndexController extends Controller
 {
     public function index(){
-        $highfive = DB::connection('l2flame')
+        $accounts = DB::connection('l2flame')
+            ->table('accounts')
+            ->where('email',Auth::user()->email)
+            ->select('login','email')
+            ->get();
+        $chars = DB::connection('l2flame')
             ->table('accounts')
             ->where('email',Auth::user()->email)
             ->join('characters','characters.account_name','=','accounts.login')
-            ->select('char_name','charId','online')
+            ->select('char_name','level','online','race','classid','base_class','login')
             ->get();
         $shop = Shop::all();
-        $paid_item = DB::table('paid_item')
+        $paid_item = DB::connection('mysql')
+            ->table('paid_item')
             ->where('user_id',Auth::user()->id)
-            ->where('postponed',NULL)
+            ->where('postponed',0)
             ->join('item','paid_item.item_id','=','item.id')
-            ->paginate(30);
-        $account_hf = DB::connection('l2flame')
-            ->table('accounts')
-            ->where('email',Auth::user()->email)
-            ->select('login')
-            ->get();
-        $highfive_char = DB::connection('l2flame')
-            ->table('characters')
-            ->select('account_name','char_name','online')
             ->get();
         $data = array_merge($this->data(),
             [
-                'highfive' => $highfive,
+                'accounts' => $accounts,
+                'chars' => $chars,
                 'shop' => $shop,
                 'paid_item' => $paid_item,
-                'account_hf' => $account_hf,
-                'highfive_char' => $highfive_char,
             ]);
         return view('back.users.index',$data);
     }

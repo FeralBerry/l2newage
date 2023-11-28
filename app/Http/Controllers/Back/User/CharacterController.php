@@ -27,66 +27,99 @@ class CharacterController extends Controller
     public function update(Request $request){
 
     }
-    public function onTheCharacter(Request $request){
-        if(is_array($request['char']) || $request['char'] == NULL){
-            return 'Не верное значение персонажа!';
-        } else {
-            $paid_item = PaidItem::all()
-                ->where('id',$request['id'])
-                ->where('user_id',Auth::user()->id);
-            if(isset($paid_item)){
-                foreach ($paid_item as $paid){
-                    $count = $paid->count;
-                    if($count >= $request['count']){
-                        if($paid->postponed == NULL){
-                            $item = Item::all()
-                                ->where('id',$paid->item_id);
-                            foreach ($item as $i){
-                                $game_id = $i->item_game_id;
+    public function addItem(Request $request){
+        $items_id = explode(' ',$request['item_id']);
+        $items_count = explode(' ',$request['item_count']);
+        $char = $request['char'];
+        if(count($items_id) !== count($items_count)){
+            return "Ошибка данных или вмешательство в работу сайта";
+        }
+        $chars = DB::connection('l2flame')
+            ->table('accounts')
+            ->where('email',Auth::user()->email)
+            ->join('characters','characters.account_name','=','accounts.login')
+            ->select('char_name')
+            ->get();
+        $not_have_char = false;
+        foreach ($chars as $item){
+            if($item->char_name == $char){
+                $not_have_char = true;
+            }
+        }
+        $shop_items = DB::connection('mysql')
+            ->table('item')
+            ->get();
+        $paid_item_id = $items_id;
+        foreach ($shop_items as $shop_item){
+            for($i = 0; $i < count($items_id); $i++){
+                if($items_id[$i] == $shop_item->id){
+                    $items_id[$i] = $shop_item->item_game_id;
+                }
+            }
+        }
+        $paid_items = DB::connection('mysql')
+            ->table('paid_item')
+            ->where('user_id',Auth::user()->id)
+            ->get();
+        if($not_have_char == true){
+            $owner_id = DB::connection('l2flame')
+                ->table('characters')
+                ->where('char_name','=',$char)
+                ->select('charId')
+                ->get();
+            foreach ($owner_id as $item){
+                $owner_id = $item->charId;
+            }
+            $msg = '';
+            foreach ($paid_items as $paid_item){
+                for($i = 0; $i < count($paid_item_id); $i++){
+                    if($paid_item->item_id == $paid_item_id[$i]){
+                        if($paid_item->count >= $items_count[$i]){
+                            $count_items_after = $paid_item->count - $items_count[$i];
+                            if($count_items_after > 0){
+                                DB::connection('mysql')
+                                    ->table('paid_item')
+                                    ->where('item_id',$paid_item->item_id)
+                                    ->update([
+                                        'count' => $count_items_after
+                                    ]);
+                                DB::connection('mysql')
+                                    ->table('paid_item')
+                                    ->insert([
+                                        'item_id' => $paid_item->item_id,
+                                        'user_id' => Auth::user()->id,
+                                        'postponed' => 1,
+                                        'count' => $paid_item->count
+                                    ]);
+                            } else {
+                                DB::connection('mysql')
+                                    ->table('paid_item')
+                                    ->where('item_id',$paid_item->item_id)
+                                    ->update([
+                                        'postponed' => 1,
+                                    ]);
                             }
-                            if($request['type'] == 1){
-                                $highFive_char = HighFiveChar::all()
-                                    ->where('obj_Id',$request['char']);
-                                foreach ($highFive_char as $char){
-                                    $online = $char->online;
-                                }
-                                if($online == 0){
-                                    DB::connection('l2flame')
-                                        ->table('items_delayed')
-                                        ->insert([
-                                            'owner_id' => $request['char'],
-                                            'count' => $request['count'],
-                                            'item_id' => $game_id,
-                                        ]);
-                                    if($count - $request['count'] == 0){
-                                        DB::table('paid_item')
-                                            ->where('id',$request['id'])
-                                            ->where('user_id',Auth::user()->id)
-                                            ->update([
-                                                'postponed' => 1,
-                                            ]);
-                                    } else {
-                                        DB::table('paid_item')
-                                            ->where('id',$request['id'])
-                                            ->where('user_id',Auth::user()->id)
-                                            ->update([
-                                                'count' => $count - $request['count'],
-                                            ]);
-                                    }
-                                    return 'Товары успешно отправлены на персонажа!';
-                                }
-                                if($online == 1){
-                                    return 'Пока персонаж онлайн передать предмет невозможно!';
-                                }
-                            }
+                            DB::connection('l2flame')
+                                ->table('items_delayed')
+                                ->insert([
+                                    'owner_id' => $owner_id,
+                                    'item_id' => $items_id[$i],
+                                    'count' => $items_count[$i],
+                                    'description' => 'Перевод итема с сайта в игру на персонажа',
+                                ]);
                         } else {
-                            return 'Предмет уже был передан на персонажа!';
+                            $msg = "Неверное количество предметов";
+                            break;
                         }
-                    } else {
-                        return 'Что-то пошло не так!';
                     }
                 }
             }
+            if($msg !== ''){
+                return $msg;
+            }
+            return "Предметы скоро будут переданы в игру";
+        } else {
+            return "Такого персонажа на вашем аккаунте нет!";
         }
     }
 }
