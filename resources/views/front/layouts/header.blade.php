@@ -28,12 +28,6 @@
                             <li><a href="{{ config('global.patch_high_five') }}">Патч для игры</a>
                             </li>
                         </ul>
-<!--                        <ul role="menu">
-                            <li><a href="{{ config('global.client_fafurion') }}">Полный клиент Fafurion</a>
-                            </li>
-                            <li><a href="{{ config('global.patch_fafurion') }}">Патч для игры Fafurion</a>
-                            </li>
-                        </ul>-->
                     </div>
                 </li>
                 <li class="dropdown dropdown-hover ">
@@ -42,8 +36,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="{{ route('news-index') }}">Все новости</a>
-                            </li>
+                            <li><a href="{{ route('news-index') }}">Все новости</a></li>
                             @if(isset($latest_news))
                                 @foreach($latest_news as $new)
                                     <li><a href="{{ route('news-article',$new->id) }}">{{ $new->name }}</a></li>
@@ -91,10 +84,9 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="{{ route('site-rules-index') }}">Правила пользования сайтом</a>
-                            </li>
-                            <li><a href="{{ route('game-rules-index') }}">Правила пользования игрой</a>
-                            </li>
+                            <li><a href="{{ route('rules-index',1) }}">Лицензионное соглашение</a></li>
+                            <li><a href="{{ route('rules-index',2) }}">Правила пользования</a></li>
+                            <li><a href="{{ route('rules-index',3) }}">Условия установки дополнительных компонентов</a></li>
                         </ul>
                     </div>
                 </li>

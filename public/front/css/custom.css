@@ -1,4 +1,3 @@
-
 .password-control {
     position: absolute;
     top: 11px;
@@ -9,7 +8,6 @@
     z-index: 999;
     color: #5be200;
 }
-
 .number {
     display: inline-block;
     position: relative;

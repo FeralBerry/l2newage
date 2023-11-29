@@ -3,22 +3,20 @@
 namespace App\Http\Controllers\Front;
 
 use App\Models\Rules;
+use Illuminate\Support\Facades\DB;
 
 class RulesController extends FrontController
 {
-    private function takeRules(){
-        return Rules::all();
+    private function takeRules($id){
+        return DB::connection('mysql')
+            ->table('rule')
+            ->where('id',$id);
     }
-    public function site(){
+    public function index($id){
+        $rule = $this->takeRules($id)->get();
         $data = array_merge($this->data(),[
-            'rules' => $this->takeRules()
+            'rules' => $rule[0]
         ]);
-        return view('front.rules.site',$data);
-    }
-    public function game(){
-        $data = array_merge($this->data(),[
-            'rules' => $this->takeRules()
-        ]);
-        return view('front.rules.game',$data);
+        return view('front.rules.index',$data);
     }
 }

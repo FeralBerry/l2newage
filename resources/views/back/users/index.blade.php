@@ -11,7 +11,7 @@
                     <a href="#tab-reg" aria-controls="tab-all" role="tab" data-toggle="tab" aria-expanded="true">Главная</a>
                 </li>
                 <li role="presentation">
-                    <a href="#tab-item" aria-controls="tab-item" role="tab" data-toggle="tab" aria-expanded="true">Аккаунты</a>
+                    <a href="#tab-accounts" aria-controls="tab-accounts" role="tab" data-toggle="tab" aria-expanded="true">Аккаунты</a>
                 </li>
                 <li role="presentation">
                     <a href="#tab-settings" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Настройки</a>
@@ -35,20 +35,22 @@
                 <div class="tab-content">
                     <!-- All Matches -->
                     <div role="tabpanel" class="tab-pane active" id="tab-reg">
+                        @if(Auth::user()->email_verified_at !== NULL)
                         <div class="col-sm-offset-2 col-sm-10">
                         <h3>Создание игрового аккаунта.</h3>
                         <p>Все игровые аккаунты будут привязаны к 1 аккаунту на сайте.</p>
-                        <p>Аккаунты к разным серверам могут быть одинаковыми.</p>
+                        <p>Создавать дополнительные аккаунты на сайте не обязательно.
+                            На 1 аккаунте на сайте можно зарегистрировать много аккаунтов игровых.</p>
                         </div>
                         <div class="youplay-matches-list">
-                            <form>
+                            <form method="post">
                                 @csrf
                                 <div class="form-horizontal mt-30 mb-40">
                                     <div class="form-group">
                                         <label class="control-label col-sm-2" for="cur_password">Логин:</label>
                                         <div class="col-sm-10">
                                             <div class="youplay-input">
-                                                <input class="input-en" type="text" id="login" name="login" placeholder="Логин:">
+                                                <input class="input-en" maxlength="29"  minlength="4" type="text" id="login" name="login" placeholder="Логин:">
                                             </div>
                                         </div>
                                     </div>
@@ -64,121 +66,91 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                        <p>Нажав создать вы соглашаетесь с <a href="{{ route('site-rules-index') }}">правилами сайта</a> и <a href="{{ route('game-rules-index') }}">правилами игры</a></p>
+                                        <p>Нажав создать вы соглашаетесь с <a href="{{ route('rules-index',1) }}">правилами сайта</a> и <a href="{{ route('rules-index',2) }}">правилами игры</a></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <a id="reg_account" class="btn btn-default">Создать</a>
+                                            <button type="button" id="reg_account" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                                Создать
+                                            </button>
+                                            <div class="modal fade" id="myModal" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                                        </div>
+                                                        <div class="modal-body" id="modal_ger_body">
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="tab-highfive">
-                        <div class="youplay-matches-list">
-                            <div class="col-lg-9">
-                                <table class="youplay-messages table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <td>#</td>
-                                        <td>Изображение</td>
-                                        <td class="message-description">Название и описание</td>
-                                        <td>Действия</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="items_highfive">
-                                    @php $i = 0; @endphp
-                                    @foreach($paid_item as $item)
-                                        @if($item->type == NULL || $item->type == 1)
-                                            @php $i++; @endphp
-                                        <tr class="message-unread" id="item_highfive{{$item->id}}">
-                                            <td>{{ $i }}</td>
-                                            <td class="message-from">
-                                                <a href="#" class="angled-img">
-                                                    <div class="img">
-                                                        @if($item->img !== NULL)
-                                                            <img src="{{ asset('front/img/item') }}/{{ $item->img }}" width="80" height="80" alt="">
-                                                        @else
-                                                            <img src="{{ asset('front//images/avatar-user-1.png') }}" width="80" height="80" alt="">
-                                                        @endif
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <td class="message-description">
-                                                <a href="#" class="message-description-name" title="View Message">{{ $item->name }}</a>
-                                                <br>
-                                                <div class="message-excerpt">{{ $item->description }}</div>
-                                                <div id="count_h{{$item->id}}" class="message-excerpt">Количество: {{ $item->count }}</div>
-                                            </td>
-                                            <td class="message-action">
-                                                <div class="number">
-                                                    <button class="number-minus" type="button" onclick="return minus_h({{$item->id}})">-</button>
-                                                    <input id="num_h{{$item->id}}" type="number" readonly>
-                                                    <button class="number-plus" type="button" onclick="return plus_h({{$item->id}})">+</button>
-                                                </div>
-                                                <a onclick="return character_highfive({{$item->id}},1)" style="margin-top: 10px" class="btn btn-sm">Перевести</a>
-                                            </td>
-                                        </tr>
-                                        @endif
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                        @else
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <p>Для получения возможности создавать игровые аккаунты, нужно пройти проверку почты из письма,
+                                    высланного на адрес указаный при регистрации.</p>
+                                <p>Создавать дополнительные аккаунты на сайте не обязательно.
+                                    На 1 аккаунте на сайте можно зарегистрировать много аккаунтов игровых.</p>
                             </div>
-                            <div class="col-lg-3">
-                                <h4>Персонажи</h4>
-                                @if(isset($highfive) && $highfive !== NULL)
-                                    @php $i = 0; @endphp
-                                    @foreach($highfive as $item)
-                                        <div class="youplay-radio">
-                                            <input type="radio" id="{{ $item->obj_Id }}" name="char_h" @if($i == 0) checked @endif value="{{ $item->obj_Id }}">
-                                            <label for="{{ $item->obj_Id }}">{{ $item->char_name }}</label>
-                                        </div>
-                                        @php $i++ @endphp
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
+                        @endif
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab-item">
+                    <div role="tabpanel" class="tab-pane" id="tab-accounts">
                         <div class="youplay-matches-list">
                             <div class="col-md-6">
-                                <h3>Аккаунты Highfive</h3>
-                                <table class="youplay-messages table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <td>#</td>
-                                        <td>Логин</td>
-                                        <td class="message-description">Персонаж</td>
-                                        <td>Онлайн</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="items_highfive">
-                                    @php $i = 1; @endphp
-                                    @foreach($account_hf as $account)
-                                        @foreach($highfive_char as $char)
-                                            @if($account->login == $char->account_name)
-                                                <tr class="message-unread">
-                                                    <td>{{ $i }}</td>
-                                                    <td>
-                                                        {{ $account->login }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $char->char_name }}
-                                                    </td>
-                                                    <td>
-                                                        @if($char->online == 1)<span style="color:greenyellow">online</span>@else<span style="color: red">offline</span>@endif
-                                                    </td>
-                                                </tr>
-                                            @php $i++; @endphp
-                                            @endif
-                                        @endforeach
+                                <h3>Персонажи</h3>
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    @foreach($accounts as $account)
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                                    {{ $account->login }} <span class="icon-plus"></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    @foreach($chars as $char)
+                                                    <div class="col-md-9">
+                                                        {{ $char->char_name }}@if($char->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input class="form-check-input char" type="radio" name="char" value="{{ $char->char_name }}">
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
-                                    </tbody>
-                                </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>Предметы</h3>
+                                <div class="row">
+                                @foreach($paid_item as $item)
+                                    <div class="col-md-12">
+                                        <input class="form-check-input item" type="checkbox" name="item[]" value="{{ $item->id }}">
+                                        <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
+                                        {{ $item->name }}
+                                    </div>
+                                @endforeach
+                                </div>
+                                <a class="btn btn-default" id="move_character">Перевести на персонажа</a>
                             </div>
                         </div>
+
                     </div>
                     <!-- /All Matches -->
                     <!-- CS Matches -->
@@ -250,10 +222,8 @@
             <div class="side-block">
                 <h4 class="block-title">Файлы игры</h4>
                 <div class="block-content p-0">
-                    <a href="{{ config('global.client_high_five') }}">Полный клиент HighFive</a><br>
-                    <a href="{{ config('global.patch_high_five') }}">Патч для игры HighFive</a><br>
-                    <a href="{{ config('global.client_fafurion') }}">Полный клиент Fafurion</a><br>
-                    <a href="{{ config('global.patch_fafurion') }}">Патч для игры Fafurion</a><br>
+                    <a href="{{ config('global.client_high_five') }}">Полный клиент</a><br>
+                    <a href="{{ config('global.patch_high_five') }}">Патч для игры</a><br>
                 </div>
             </div>
             <div class="side-block">

@@ -57,49 +57,6 @@
             document.getElementById("num_h"+id).value = Number(num_value) - 1;
         }
     }
-    function character_highfive(id,type){
-        var char = document.querySelector('input[name="char_h"]:checked').value;
-        var count = document.getElementById("num_h"+id).value;
-        var count_item = document.getElementById('count_h'+id).innerHTML;
-        $.ajax({
-            url: "{{ route('on-the-character') }}",
-            dataType: 'html',
-            method: 'post',
-            data: {
-                _token: '{{ csrf_token() }}',
-                char: char,
-                id: id,
-                type: type,
-                count: count,
-            },
-            success: function (data) {
-                if(data === 'Не верное значение персонажа!'){
-                    alert(data);
-                } else if(data === 'Товары успешно отправлены на персонажа!'){
-                    if((Number(count_item.replace('Количество: ','')) - count) === 0){
-                        var parent_highfive = document.getElementById("items_highfive");
-                        var child_highfive = document.getElementById("item_highfive"+id);
-                        parent_highfive.removeChild(child_highfive);
-                        var parent_fafurion = document.getElementById("items_fafurion");
-                        var child_fafurion = document.getElementById("item_fafurion"+id);
-                        parent_fafurion.removeChild(child_fafurion);
-                    }
-                    if((Number(count_item.replace('Количество: ','')) - count) > 0) {
-                        sum = Number(count_item.replace('Количество: ','')) - count;
-                        if(document.getElementById('count_h'+id) != null){
-                            document.getElementById('count_h'+id).innerHTML = 'Количество: ' + sum;
-                        }
-                        if(document.getElementById('count_f'+id) != null){
-                            document.getElementById('count_f'+id).innerHTML = 'Количество: ' + sum;
-                        }
-                    }
-                    alert(data);
-                } else {
-                    alert(data);
-                }
-            },
-        });
-    }
     if(typeof youplay !== 'undefined') {
         youplay.init({
             // enable parallax
@@ -136,21 +93,32 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $(document).ready(function(){
-        $('#reg_account').click(function (){
-            var login = document.getElementById('login').value;
-            var pass = document.getElementById('pass').value;
+    $(document).ready(function() {
+        $('#reg_account').on("click", function () {
+            let login = document.getElementById('login').value;
+            let pass = document.getElementById('pass').value;
             $.ajax({
                 url: "{{ route('users-reg-account') }}",
-                dataType: 'html',
                 method: 'post',
                 data: {
                     _token: '{{ csrf_token() }}',
                     login: login,
                     pass: pass,
                 },
-                success: function (data){
-                    alert(data);
+                success: function (data) {
+                    document.getElementById('myModal').style.display = 'block';
+                    setTimeout(function(){
+                        document.getElementById('myModal').style.display = 'none';
+                    }, 5000);
+                    let myModalLabel = $('#myModalLabel');
+                    let modalGerBody = $('#modal_ger_body');
+                    if (data === 'Ваш аккаунт успешно зарестрирован!') {
+                        myModalLabel.html('Успешная регистрация игрового аккаунта');
+                        modalGerBody.html(data);
+                    } else {
+                        myModalLabel.html('Ошибка регистрации');
+                        modalGerBody.html(data);
+                    }
                 },
             });
         });
@@ -441,6 +409,55 @@
             });
         });
     });
-
+    $(document).ready(function(){
+        $('#move_character').click(function (){
+            let char = $(".char:checked").val();
+            let elem_id = '';
+            let elem_count = '';
+            let myModalLabel = $('#myModalLabel');
+            let modalGerBody = $('#modal_ger_body');
+            if(char === null){
+                document.getElementById('myModal').style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById('myModal').style.display = 'none';
+                }, 5000);
+                myModalLabel.html('Ошибка выбора персонажа.');
+                modalGerBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+            }
+            document.querySelectorAll('.item').forEach(function(elem) {
+                if(elem.checked){
+                    elem_id = elem_id + elem.value + ' ';
+                    elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
+                }
+            });
+            if(elem_id === '' || elem_count === '' && elem_count === 0){
+                document.getElementById('myModal').style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById('myModal').style.display = 'none';
+                }, 5000);
+                myModalLabel.html('Ошибка.');
+                modalGerBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+            }
+            $.ajax({
+                url: "{{ route('user-character-add-item') }}",
+                dataType: 'html',
+                method: 'post',
+                data:{
+                    _token: '{{ csrf_token() }}',
+                    item_id: elem_id,
+                    item_count: elem_count,
+                    char: char,
+                },
+                success: function (data) {
+                    document.getElementById('myModal').style.display = 'block';
+                    setTimeout(function(){
+                        document.getElementById('myModal').style.display = 'none';
+                    }, 5000);
+                    myModalLabel.html('Успешная отпрака итемов');
+                    modalGerBody.html(data);
+                }
+            });
+        });
+    });
 </script>
 

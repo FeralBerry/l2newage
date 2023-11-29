@@ -31,4 +31,68 @@
         });
     }
 </script>
-
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function rules_change(id) {
+        var iframe = document.getElementById("rules_ifr");
+        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        var rules = iframeDocument.getElementById("tinymce").innerHTML;
+        $.ajax({
+            url: "{{ route('admin-index') }}/rules/edit/" + id,
+            dataType: 'html',
+            method: 'post',
+            data: {
+                _token: '{{ csrf_token() }}',
+                rules: rules,
+            },
+            success: function (data) {
+                if(data === "success"){
+                    alert("Успешно изменено")
+                }
+                document.getElementById('rul_desc' + id).innerHTML = rules;
+            }
+        });
+    }
+    function seoDelete(id){
+        $.ajax({
+            type: "POST",
+            url: "{{ route('admin-seo-index') }}/delete/" + id,
+            data:{
+                _token: '{{ csrf_token() }}',
+            },
+            beforeSend:function(){
+                return confirm("Точно удалить SEO описание?");
+            },
+            success: function (data) {
+                alert(data)
+            }
+        });
+    }
+    function seoEdit(id){
+        let formData = new FormData;
+        formData.append('route_name',document.getElementById('route_name' + id).value);
+        formData.append('title',document.getElementById('title' + id).value);
+        formData.append('description',document.getElementById('description' + id).value);
+        formData.append('keywords',document.getElementById('keywords' + id).value);
+        formData.append('img',document.getElementById('img' + id).files[0]);
+        formData.append('old_img',document.getElementById('old_img' + id).value);
+        $.ajax({
+            url: "{{ route('admin-seo-index') }}/edit/" + id,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            beforeSend:function(){
+                return confirm("Точно изменить SEO описание?");
+            },
+            success: function (data) {
+                alert(data)
+            }
+        });
+    }
+</script>
