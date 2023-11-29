@@ -414,12 +414,30 @@
             let char = $(".char:checked").val();
             let elem_id = '';
             let elem_count = '';
+            let myModalLabel = $('#myModalLabel');
+            let modalGerBody = $('#modal_ger_body');
+            if(char === null){
+                document.getElementById('myModal').style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById('myModal').style.display = 'none';
+                }, 5000);
+                myModalLabel.html('Ошибка выбора персонажа.');
+                modalGerBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+            }
             document.querySelectorAll('.item').forEach(function(elem) {
                 if(elem.checked){
                     elem_id = elem_id + elem.value + ' ';
                     elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
                 }
             });
+            if(elem_id === '' || elem_count === '' && elem_count === 0){
+                document.getElementById('myModal').style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById('myModal').style.display = 'none';
+                }, 5000);
+                myModalLabel.html('Ошибка.');
+                modalGerBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+            }
             $.ajax({
                 url: "{{ route('user-character-add-item') }}",
                 dataType: 'html',
@@ -431,7 +449,12 @@
                     char: char,
                 },
                 success: function (data) {
-                    alert(data);
+                    document.getElementById('myModal').style.display = 'block';
+                    setTimeout(function(){
+                        document.getElementById('myModal').style.display = 'none';
+                    }, 5000);
+                    myModalLabel.html('Успешная отпрака итемов');
+                    modalGerBody.html(data);
                 }
             });
         });

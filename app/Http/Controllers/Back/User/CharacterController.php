@@ -34,6 +34,9 @@ class CharacterController extends Controller
         if(count($items_id) !== count($items_count)){
             return "Ошибка данных или вмешательство в работу сайта";
         }
+        if ($char == null){
+            return "Не выбран персонаж для перевода.";
+        }
         $chars = DB::connection('l2flame')
             ->table('accounts')
             ->where('email',Auth::user()->email)

@@ -147,9 +147,10 @@
                                     </div>
                                 @endforeach
                                 </div>
+                                <a class="btn btn-default" id="move_character">Перевести на персонажа</a>
                             </div>
                         </div>
-                        <a class="btn btn-default" id="move_character">Перевести на персонажа</a>
+
                     </div>
                     <!-- /All Matches -->
                     <!-- CS Matches -->
