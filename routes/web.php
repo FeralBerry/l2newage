@@ -53,9 +53,9 @@ Route::group($back,function(){
     ];
     Route::group($user,function(){
         Route::get('/',['uses' => 'IndexController@index','as'=>'users-index']);
-        Route::match(['GET','POST'],'/profile',['uses' => 'IndexController@index','as'=>'users-profile']);
-        Route::match(['GET','POST'],'/new/password',['uses' => 'IndexController@newPassword','as'=>'users-new-password']);
-        Route::match(['GET','POST'],'/new/phone',['uses' => 'IndexController@newPhone','as'=>'users-new-phone']);
+        Route::get('/profile',['uses' => 'IndexController@index','as'=>'users-profile']);
+        Route::post('/new/password',['uses' => 'IndexController@newPassword','as'=>'users-new-password']);
+        Route::post('/new/phone',['uses' => 'IndexController@newPhone','as'=>'users-new-phone']);
         //Регистрация аккаунта
         Route::post('/reg',['uses' => 'RegisterAccountController@reg','as'=>'users-reg-account']);
         //Корзина
@@ -89,6 +89,8 @@ Route::group($back,function(){
         Route::post('/seo/add',['uses' => 'SeoController@add','as'=>'admin-seo-add']);
         Route::post('/seo/edit/{id}',['uses' => 'SeoController@edit','as'=>'admin-seo-edit']);
         Route::post('/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
+        // Accounts
+        Route::get('/account',['uses' => 'AccountsController@index','as' => 'admin-accounts-index']);
         //orders
         Route::match(['GET','POST'],'/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
         Route::match(['GET','POST'],'/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);

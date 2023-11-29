@@ -39,28 +39,7 @@
                             </div>
                         </div>
                         <div class="align-right">
-                            <a href="{{ route('admin-hf-accounts-index') }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="item angled-bg" style="min-height: 100px">
-                    <div class="row">
-                        <div class="col-xs-6 col-md-9">
-                            <h4 class="ml-20"><i class="fa fa-id-card-o"></i> Аккаунтов Fafurion</h4>
-                        </div>
-                        <div class="col-xs-6 col-md-3 align-right">
-                            <div class="price">
-                                @if(isset($count_fr_accounts))
-                                    {{ $count_fr_accounts }}
-                                @else
-                                    0
-                                @endif
-                            </div>
-                        </div>
-                        <div class="align-right">
-                            <a href="{{ route('admin-fr-accounts-index') }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
+                            <a href="{{ route('admin-accounts-index') }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
                         </div>
                     </div>
                 </div>

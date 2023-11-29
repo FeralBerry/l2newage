@@ -93,21 +93,32 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $(document).ready(function(){
-        $('#reg_account').click(function (){
-            var login = document.getElementById('login').value;
-            var pass = document.getElementById('pass').value;
+    $(document).ready(function() {
+        $('#reg_account').on("click", function () {
+            let login = document.getElementById('login').value;
+            let pass = document.getElementById('pass').value;
             $.ajax({
                 url: "{{ route('users-reg-account') }}",
-                dataType: 'html',
                 method: 'post',
                 data: {
                     _token: '{{ csrf_token() }}',
                     login: login,
                     pass: pass,
                 },
-                success: function (data){
-                    alert(data);
+                success: function (data) {
+                    document.getElementById('myModal').style.display = 'block';
+                    setTimeout(function(){
+                        document.getElementById('myModal').style.display = 'none';
+                    }, 5000);
+                    let myModalLabel = $('#myModalLabel');
+                    let modalGerBody = $('#modal_ger_body');
+                    if (data === 'Ваш аккаунт успешно зарестрирован!') {
+                        myModalLabel.html('Успешная регистрация игрового аккаунта');
+                        modalGerBody.html(data);
+                    } else {
+                        myModalLabel.html('Ошибка регистрации');
+                        modalGerBody.html(data);
+                    }
                 },
             });
         });

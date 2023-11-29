@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class AccountsController extends AdminBaseController
 {
-    public function index()
-    {
+    public function index(){
         $data = array_merge($this->data(),[
 
         ]);

@@ -43,7 +43,7 @@
                             На 1 аккаунте на сайте можно зарегистрировать много аккаунтов игровых.</p>
                         </div>
                         <div class="youplay-matches-list">
-                            <form>
+                            <form method="post">
                                 @csrf
                                 <div class="form-horizontal mt-30 mb-40">
                                     <div class="form-group">
@@ -71,7 +71,25 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <a id="reg_account" class="btn btn-default">Создать</a>
+                                            <button type="button" id="reg_account" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                                Создать
+                                            </button>
+                                            <div class="modal fade" id="myModal" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                                        </div>
+                                                        <div class="modal-body" id="modal_ger_body">
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
