@@ -58,6 +58,7 @@ Route::group($back,function(){
         Route::post('/new/phone',['uses' => 'IndexController@newPhone','as'=>'users-new-phone']);
         //Регистрация аккаунта
         Route::post('/reg',['uses' => 'RegisterAccountController@reg','as'=>'users-reg-account']);
+        Route::post('/reg/new/password',['uses' => 'RegisterAccountController@regNewPassword','as'=>'user-account-new-password']);
         //Корзина
         Route::match(['GET','POST'],'/cart',['uses' => 'CartController@index','as' => 'cart-index']);
         Route::match(['GET','POST'],'/cart/add/{id}',['uses' => 'CartController@add','as' => 'cart-add']);

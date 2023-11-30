@@ -109,16 +109,33 @@
                             <div class="col-md-6">
                                 <h3>Персонажи</h3>
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class='modal fade' id='newPasswordModal' style='display: none;'>
+                                        <div class='modal-dialog'>
+                                            <div class='modal-content'>
+                                                <div class='modal-header'>
+                                                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                                    <h4 class='modal-title' id='newPasswordLabel'></h4>
+                                                </div>
+                                                <div class='modal-body' id='newPasswordBody'>
+
+                                                </div>
+                                                <div class='modal-footer'>
+                                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @foreach($accounts as $account)
+                                    <a onclick="accountEdit('{{ $account->login }}')" data-toggle='modal' data-target='#newPasswordModal' style="position: absolute;z-index: 100;"><i class="fa fa-pencil"></i></a>
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingOne">
+                                        <div class="panel-heading" role="tab" id="heading{{ $account->login }}">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $account->login }}" aria-expanded="false" aria-controls="collapse{{ $account->login }}" class="collapsed">
                                                     {{ $account->login }} <span class="icon-plus"></span>
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                        <div id="collapse{{ $account->login }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ $account->login }}" aria-expanded="false" style="height: 0px;">
                                             <div class="panel-body">
                                                 <div class="row">
                                                     @foreach($chars as $char)

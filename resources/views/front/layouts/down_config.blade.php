@@ -459,5 +459,50 @@
             });
         });
     });
+    function accountEdit(login){
+        let data = "<form>" +
+            "<div class='form-horizontal mt-30 mb-40'>" +
+                "<div class='form-group'>" +
+                "<label class='control-label col-sm-2' for='new_password_for_account'>Новый пароль:</label>" +
+                    "<div class='col-sm-10'>" +
+                        "<div class='youplay-input'>" +
+                            "<input class='input-en' type='password' id='new_password_for_account' name='new_password_for_account' placeholder='Новый пароль:'>" +
+                        "</div>" +
+                    "</div>" +
+                "</div>" +
+                "<div class='form-group'>" +
+                    "<div class='col-sm-offset-2 col-sm-10'>" +
+                        "<a onclick='new_password_for_account(`"+login+"`)' class='btn btn-primary btn-lg'>Изменить</a>" +
+                    "</div>" +
+                "</div>"+
+            "</div></form>";
+        document.getElementById('newPasswordModal').style.display = 'block';
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        newPasswordLabel.html('Изменение пароля от игрового аккаунта ' + login);
+        newPasswordBody.html(data);
+    }
+    function new_password_for_account(login){
+        let new_password_for_account = document.getElementById('new_password_for_account').value;
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        $.ajax({
+            url: "{{ route('user-account-new-password') }}",
+            dataType: 'html',
+            method: 'post',
+            data:{
+                _token: '{{ csrf_token() }}',
+                new_password_for_account: new_password_for_account,
+                login: login,
+            },
+            success: function (data) {
+                newPasswordLabel.html('Изменение пароля от игрового аккаунта ' + login);
+                newPasswordBody.html(data);
+                setTimeout(function(){
+                    document.getElementById('newPasswordModal').style.display = 'none';
+                }, 3000);
+            }
+        });
+    }
 </script>
 
