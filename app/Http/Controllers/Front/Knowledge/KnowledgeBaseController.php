@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Mail;
 class KnowledgeBaseController extends FrontController
 {
     public function index(){
+        $data = [
 
-
+        ];
+        return view('front.knowledge.index',$data);
     }
 }

@@ -36,88 +36,77 @@
                             <h4>{{ $item->title }}</h4>
                             <div class="rating" id="rating{{ $item->id }}">
                                 @php
-                                    $voice = 0;
                                     $rating = 0;
                                     if(($item->rate_1 + $item->rate_2 + $item->rate_3 + $item->rate_4 + $item->rate_5) !== 0){
                                         $rating = ($item->rate_1 * 1 + $item->rate_2 * 2 + $item->rate_3 * 3 + $item->rate_4 * 4 + $item->rate_5 * 5) / ($item->rate_1 + $item->rate_2 + $item->rate_3 + $item->rate_4 + $item->rate_5);
                                     }
-                                    if(Auth::user()){
-                                        if(Auth::user()->rate_shop !== NULL){
-                                            $rate_shop = explode(',',Auth::user()->rate_shop);
-                                            foreach ($rate_shop as $rate => $value){
-                                                if($value == $item->id){
-                                                    $voice = 1;
-                                                }
-                                            }
-                                        }
-                                    }
                                 @endphp
                                 @if($rating < 0.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(0.5 <= $rating && $rating < 1)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(1 <= $rating && $rating < 1.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(1.5 <= $rating && $rating < 2)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(2 <= $rating && $rating < 2.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(2.5 <= $rating && $rating < 3)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(3 <= $rating && $rating < 3.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(3.5 <= $rating && $rating < 4)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(4 <= $rating && $rating < 4.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(4.5 <= $rating && $rating < 5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
                                 @elseif($rating == 5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                 @endif
                             </div>
                         </div>
@@ -168,88 +157,77 @@
                         <div class="col-xs-6">
                             <div class="rating" id="rating{{ $item->id }}">
                                 @php
-                                    $voice = 0;
                                     $rating = 0;
                                     if(($item->rate_1 + $item->rate_2 + $item->rate_3 + $item->rate_4 + $item->rate_5) !== 0){
                                         $rating = ($item->rate_1 * 1 + $item->rate_2 * 2 + $item->rate_3 * 3 + $item->rate_4 * 4 + $item->rate_5 * 5) / ($item->rate_1 + $item->rate_2 + $item->rate_3 + $item->rate_4 + $item->rate_5);
                                     }
-                                    if(Auth::user()){
-                                        if(Auth::user()->rate_shop !== NULL){
-                                            $rate_shop = explode(',',Auth::user()->rate_shop);
-                                            foreach ($rate_shop as $rate => $value){
-                                                if($value == $item->id){
-                                                    $voice = 1;
-                                                }
-                                            }
-                                        }
-                                    }
                                 @endphp
                                 @if($rating < 0.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(0.5 <= $rating && $rating < 1)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(1 <= $rating && $rating < 1.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(1.5 <= $rating && $rating < 2)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(2 <= $rating && $rating < 2.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(2.5 <= $rating && $rating < 3)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(3 <= $rating && $rating < 3.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(3.5 <= $rating && $rating < 4)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(4 <= $rating && $rating < 4.5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
                                 @elseif(4.5 <= $rating && $rating < 5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star-half-o"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
                                 @elseif($rating == 5)
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate1(1,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate2(2,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate3(3,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate4(4,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
-                                    @if(Auth::user() && $voice == 0)<a href="#" onclick="rate5(5,{{ $item->id }})">@endif<i class="fa fa-star"></i>@if(Auth::user() && $voice == 0)</a>@endif
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                 @endif
                             </div>
                         </div>
