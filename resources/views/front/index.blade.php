@@ -144,7 +144,7 @@
             <a class="angled-img" href="{{ route('shop-product',$item->id) }}">
                 <div class="img img-offset">
                     <img src="{{ asset("front/img/shop") }}/{{ $img[0] }}" alt="{{ $item->title }}">
-                    @if($item->percent !== NULL)
+                    @if($item->percent !== 0)
                     <div class="badge bg-default">
                         -{{ $item->percent }}%
                     </div>
@@ -233,7 +233,7 @@
                         </div>
                         <div class="col-xs-6">
                             @php $new_price = $item->price - ($item->price * $item->percent  / 100); @endphp
-                            <div class="price">&#8381;{{ $new_price }} <sup><del>&#8381;{{ $item->price }}</del></sup>
+                            <div class="price">&#8381;{{ $new_price }} @if($item->percent !== 0)<sup><del>&#8381;{{ $item->price }}</del></sup>@endif
                             </div>
                         </div>
                     </div>

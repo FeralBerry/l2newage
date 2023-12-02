@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Orders;
 use App\Models\Shop;
 use App\Models\Yookassa;
 use Illuminate\Http\Request;
@@ -35,9 +36,18 @@ class PaymentController extends FrontController
             ->where('user_id',Auth::user()->id);
         $header_shop = Shop::all();
         $amount = 0;
+        $now = now();
         foreach ($all_cart as $cart){
             foreach ($header_shop as $shop){
                 if($cart->shop_id == $shop->id){
+                    DB::connection('mysql')
+                        ->table('orders')
+                        ->insert([
+                            'user_id' => Auth::user()->id,
+                            'shop_id' => $shop->id,
+                            'count' => $cart->count,
+                            'created_at' => $now
+                        ]);
                     $amount = $amount + $cart->count * ($shop->price - ($shop->price * $shop->percent / 100));
                 }
             }
@@ -60,7 +70,7 @@ class PaymentController extends FrontController
             ],
             'confirmation' => [
                 'type' => 'redirect',
-                'return_url' => route('payment-success',$y_id),
+                'return_url' => route('payment-success',['id' => $y_id,'user_id' =>Auth::user()->id]),
             ],
             'capture' => false,
             'description' => 'Заказ №'.$y_id,
@@ -81,10 +91,17 @@ class PaymentController extends FrontController
                 'description' => $payment['description'],
                 'payment_link' => $payment['confirmation']['confirmation_url'],
             ]);
+            DB::connection('mysql')
+                ->table('orders')
+                ->where('user_id',Auth::user()->id)
+                ->where('created_at',$now)
+                ->update([
+                    'payment_id' => $payment['id'],
+                ]);
         }
         return Redirect::to($payment['confirmation']['confirmation_url']);
     }
-    public function success($id){
+    public function success($id,$user_id){
         $yookassa = Yookassa::all()
             ->where('id',$id);
         if(!empty($yookassa)){
@@ -93,84 +110,100 @@ class PaymentController extends FrontController
                 $payment_id = $item->payment_id;
             }
             $payment = $this->connent()->getPaymentInfo($payment_id);
-            if(!empty($payment) && $payment['amount']['value'] == $amount){
-                $this->connent()->capturePayment([
-                    'amount' => $amount,
-                ],
-                    $payment_id,
-                    uniqid('', true)
-                );
-            }
-            if($payment['status'] == 'succeeded'){
-                $paid = 1;
-            }
+            $this->connent()->capturePayment([
+                'amount' => $amount,
+            ],
+                $payment_id,
+                uniqid('', true)
+            );
             DB::table('yookassa')
                 ->where('id',$id)
                 ->update([
-                        'status' => $payment['status'],
-                        'paid' => $paid,
-                        'paid_at' => date("Y-m-d H:i:s"),
+                    'status' => $payment['status'],
+                    'paid_at' => date("Y-m-d H:i:s"),
+                ]);
+            if($payment['status'] == 'waiting_for_capture'){
+                DB::connection('mysql')
+                    ->table('orders')
+                    ->where('payment_id',$payment_id)
+                    ->update([
+                        'status' => 1
                     ]);
-            $cart = DB::table('cart')
-                ->where('user_id',Auth::user()->id);
-            foreach ($cart as $item){
-                DB::table('orders')
-                    ->insert([
-                        'user_id' => $item->user_id,
-                        'shop_id' => $item->shop_id,
-                        'count' => $item->count,
-                    ]);
-            }
-            $order = DB::table('orders')
-                ->orderByDesc('created_at')
-                ->limit(1);
-            foreach ($order as $item){
-                $shop = Shop::all()
-                    ->where('id',$item->shop_id);
-                foreach ($shop as $s){
-                    $items_id = explode(',',$s->item_id);
-                }
-                foreach ($items_id as $i){
-                    $paid_item = DB::table('paid_item')
-                        ->where('user_id', $item->user_id)
-                        ->where('item_id', $i)
-                        ->where('postponed','=',NULL);
-                    if(isset($paid_item)){
-                        foreach ($paid_item as $paid){
-                            DB::table('paid_item')
-                                ->where('user_id', $item->user_id)
-                                ->where('item_id', $i)
-                                ->where('postponed','=',NULL)
-                                ->update([
-                                    'count' => $paid->count + $item->count
-                                ]);
+                DB::connection('mysql')
+                    ->table('cart')
+                    ->where('user_id',$user_id)
+                    ->delete();
+                $orders = DB::connection('mysql')
+                    ->table('orders')
+                    ->where('payment_id',$payment_id)
+                    ->get();
+                $paid_item = DB::connection('mysql')
+                    ->table('paid_item')
+                    ->where('user_id',$user_id)
+                    ->where('postponed', 0)
+                    ->get();
+                if(empty($paid_item)){
+                    foreach ($paid_item as $item){
+                        foreach ($orders as $order){
+                            if($item->item_id == $order->shop_id){
+                                DB::connection('mysql')
+                                    ->table('paid_item')
+                                    ->where('item_id', $order->shop_id)
+                                    ->update([
+                                        'count' => $item->count + $order->count,
+                                    ]);
+                            } else {
+                                DB::connection('mysql')
+                                    ->table('paid_item')
+                                    ->insert([
+                                        'user_id' => $order->user_id,
+                                        'item_id' => $order->shop_id,
+                                        'count' => $order->count,
+                                    ]);
+                            }
                         }
-                    } else {
-                        DB::table('paid_item')
+                    }
+                } else {
+                    foreach ($orders as $order) {
+                        DB::connection('mysql')
+                            ->table('paid_item')
                             ->insert([
-                                'user_id' => $item->user_id,
-                                'item_id' => $i,
-                                'count' => $item->count,
+                                'user_id' => $order->user_id,
+                                'item_id' => $order->shop_id,
+                                'count' => $order->count,
                             ]);
                     }
                 }
+                $payment = $this->connent()->getPaymentInfo($payment_id);
+                DB::table('yookassa')
+                    ->where('id',$id)
+                    ->update([
+                        'status' => $payment['status'],
+                    ]);
+                return view('front.payment.success');
+            }  elseif ($payment['status'] == 'succeeded'){
+                return view('front.payment.error');
             }
-            $cart->delete();
-            return view('front.payment.success');
         } else {
             abort(404);
         }
     }
-    public function check(){
+    public function check($id){
         $yookassa = DB::table('yookassa')
             ->where('user_id',Auth::user()->id)
-            ->where('status','pending')
+            ->where('payment_id',$id)
             ->get();
-        if(!empty($yookassa)){
-            foreach ($yookassa as $item){
-                $this->success($item->id);
-            }
+        $payment_amount = 0;
+        foreach ($yookassa as $item){
+            $payment_amount = $item->amount;
         }
+        $this->connent()->capturePayment(
+            array(
+                'amount' => $payment_amount,
+            ),
+            $id,
+            uniqid('', true)
+        );
         return view('front.payment.success');
     }
 }

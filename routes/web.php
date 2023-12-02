@@ -25,8 +25,8 @@ Route::group($front,function(){
     Route::get('/shop/search',['uses' => 'ShopController@search','as' => 'shop-search']);
     //Оплата
     Route::match(['GET','POST'],'/payment/create',['uses' => 'PaymentController@create','as' => 'payment-create']);
-    Route::match(['GET'],'/payment/success/{id}',['uses' => 'PaymentController@success','as' => 'payment-success']);
-    Route::match(['GET'],'/payment/check',['uses' => 'PaymentController@check','as' => 'payment-check']);
+    Route::get('/payment/success/{id}/{user_id}',['uses' => 'PaymentController@success','as' => 'payment-success']);
+    Route::get('/payment/check/{id}',['uses' => 'PaymentController@check','as' => 'payment-check']);
     // Правила
     Route::get('/rules/{id}',['uses' => 'RulesController@index','as' => 'rules-index']);
     //
@@ -67,7 +67,7 @@ Route::group($back,function(){
         //перевод итемов на персонажа
         Route::post('/character/add/item',['uses' => 'CharacterController@addItem','as' => 'user-character-add-item']);
         //Forum
-        Route::match(['POST'],'/forum/add',['uses' => 'ForumController@add', 'as' => 'forum-add']);
+        Route::post('/forum/add',['uses' => 'ForumController@add', 'as' => 'forum-add']);
         Route::match(['GET','POST'],'/forum/post/add/{id}/{forum_id}',['uses' => 'ForumController@addPost', 'as' => 'forum-post-add']);
         //chat
         Route::match(['GET','POST'],'/chat/{id}',['uses' => 'ChatController@index','as'=>'chat-index']);

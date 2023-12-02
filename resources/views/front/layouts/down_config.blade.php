@@ -409,54 +409,53 @@
             });
         });
     });
-    $(document).ready(function(){
-        $('#move_character').click(function (){
-            let char = $(".char:checked").val();
-            let elem_id = '';
-            let elem_count = '';
-            let myModalLabel = $('#myModalLabel');
-            let modalGerBody = $('#modal_ger_body');
-            if(char === null){
-                document.getElementById('myModal').style.display = 'block';
-                setTimeout(function(){
-                    document.getElementById('myModal').style.display = 'none';
-                }, 5000);
-                myModalLabel.html('Ошибка выбора персонажа.');
-                modalGerBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+    $('#move_character').click(function (){
+        let char = $(".char:checked").val();
+        let elem_id = '';
+        let elem_count = '';
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        if(typeof char == 'undefined'){
+            document.getElementById('newPasswordModal').style.display = 'block';
+            newPasswordLabel.html('Ошибка выбора персонажа.');
+            newPasswordBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+            setTimeout(function(){
+                document.getElementById('newPasswordModal').style.display = 'none';
+            }, 5000);
+        }
+        document.querySelectorAll('.item').forEach(function(elem) {
+            if(elem.checked){
+                elem_id = elem_id + elem.value + ' ';
+                elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
             }
-            document.querySelectorAll('.item').forEach(function(elem) {
-                if(elem.checked){
-                    elem_id = elem_id + elem.value + ' ';
-                    elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
-                }
-            });
-            if(elem_id === '' || elem_count === '' && elem_count === 0){
-                document.getElementById('myModal').style.display = 'block';
+        });
+        if(elem_id === '' || elem_count === '' && elem_count === 0){
+            document.getElementById('newPasswordModal').style.display = 'block';
+            newPasswordLabel.html('Ошибка.');
+            newPasswordBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+            setTimeout(function(){
+                document.getElementById('newPasswordModal').style.display = 'none';
+            }, 5000);
+        }
+        $.ajax({
+            url: "{{ route('user-character-add-item') }}",
+            dataType: 'html',
+            method: 'post',
+            data:{
+                _token: '{{ csrf_token() }}',
+                item_id: elem_id,
+                item_count: elem_count,
+                char: char,
+            },
+            success: function (data) {
+                document.getElementById('newPasswordModal').style.display = 'block';
+                newPasswordLabel.html('Успешная отпрака итемов');
+                newPasswordBody.html(data);
                 setTimeout(function(){
-                    document.getElementById('myModal').style.display = 'none';
+                    document.getElementById('newPasswordModal').style.display = 'none';
                 }, 5000);
-                myModalLabel.html('Ошибка.');
-                modalGerBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+
             }
-            $.ajax({
-                url: "{{ route('user-character-add-item') }}",
-                dataType: 'html',
-                method: 'post',
-                data:{
-                    _token: '{{ csrf_token() }}',
-                    item_id: elem_id,
-                    item_count: elem_count,
-                    char: char,
-                },
-                success: function (data) {
-                    document.getElementById('myModal').style.display = 'block';
-                    setTimeout(function(){
-                        document.getElementById('myModal').style.display = 'none';
-                    }, 5000);
-                    myModalLabel.html('Успешная отпрака итемов');
-                    modalGerBody.html(data);
-                }
-            });
         });
     });
     function accountEdit(login){

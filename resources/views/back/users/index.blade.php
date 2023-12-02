@@ -109,7 +109,7 @@
                             <div class="col-md-6">
                                 <h3>Персонажи</h3>
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class='modal fade' id='newPasswordModal' style='display: none;'>
+                                    <div class='modal fade' id='newPasswordModal' style='display: none'>
                                         <div class='modal-dialog'>
                                             <div class='modal-content'>
                                                 <div class='modal-header'>
@@ -157,17 +157,19 @@
                                 <h3>Предметы</h3>
                                 <div class="row">
                                 @foreach($paid_item as $item)
-                                    <div class="col-md-12">
-                                        <input class="form-check-input item" type="checkbox" name="item[]" value="{{ $item->id }}">
-                                        <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
-                                        {{ $item->name }}
+                                    <div class="form-group">
+                                        <div class="youplay-checkbox">
+                                            <input class="item" type="checkbox" id="{{ $item->id }}" name="item[]" value="{{ $item->id }}">
+                                            <label for="{{ $item->id }}">{{ $item->name }}</label>
+                                            <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
+                                            <br>
+                                        </div>
                                     </div>
                                 @endforeach
                                 </div>
                                 <a class="btn btn-default" id="move_character">Перевести на персонажа</a>
                             </div>
                         </div>
-
                     </div>
                     <!-- /All Matches -->
                     <!-- CS Matches -->
