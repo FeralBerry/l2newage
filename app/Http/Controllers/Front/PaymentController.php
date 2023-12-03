@@ -40,15 +40,18 @@ class PaymentController extends FrontController
         foreach ($all_cart as $cart){
             foreach ($header_shop as $shop){
                 if($cart->shop_id == $shop->id){
+                    $amount = $amount + $cart->count * ($shop->price - ($shop->price * $shop->percent / 100));
+                    $price = $cart->count * ($shop->price - ($shop->price * $shop->percent / 100));
                     DB::connection('mysql')
                         ->table('orders')
                         ->insert([
                             'user_id' => Auth::user()->id,
                             'shop_id' => $shop->id,
                             'count' => $cart->count,
-                            'created_at' => $now
+                            'created_at' => $now,
+                            'amount' => number_format((float)$price, 2, '.', ''),
                         ]);
-                    $amount = $amount + $cart->count * ($shop->price - ($shop->price * $shop->percent / 100));
+
                 }
             }
         }
@@ -62,7 +65,7 @@ class PaymentController extends FrontController
         } else {
             $y_id = 1;
         }
-        $price = (float)$amount;
+        $price = number_format((float)$amount, 2, '.', '');
         $payment = $this->connent()->createPayment([
             'amount' => [
                 'value' => $price,
@@ -108,6 +111,10 @@ class PaymentController extends FrontController
             foreach ($yookassa as $item){
                 $amount = $item->amount;
                 $payment_id = $item->payment_id;
+                $paid_at = $item->paid_at;
+            }
+            if($paid_at == null){
+                return view('front.payment.error');
             }
             $payment = $this->connent()->getPaymentInfo($payment_id);
             $this->connent()->capturePayment([

@@ -2,7 +2,7 @@
 @section('content')
 <!-- Banner -->
 <div class="youplay-banner youplay-banner-parallax banner-top small">
-    <div class="image" style="background-image: url({{ asset('front/img/bg/users.jpg') }});">
+    <div class="image" style="background-image: url({{ asset('front/img/bg/user.jpg') }});">
     </div>
     <div class="youplay-user-navigation">
         <div class="container" role="tabpanel">
@@ -12,6 +12,9 @@
                 </li>
                 <li role="presentation">
                     <a href="#tab-accounts" aria-controls="tab-accounts" role="tab" data-toggle="tab" aria-expanded="true">Аккаунты</a>
+                </li>
+                <li role="presentation">
+                    <a href="#tab-payments" aria-controls="tab-payments" role="tab" data-toggle="tab" aria-expanded="true">Платежи</a>
                 </li>
                 <li role="presentation">
                     <a href="#tab-settings" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Настройки</a>
@@ -33,7 +36,6 @@
         <div class="col-md-9">
             <div role="tabpanel">
                 <div class="tab-content">
-                    <!-- All Matches -->
                     <div role="tabpanel" class="tab-pane active" id="tab-reg">
                         @if(Auth::user()->email_verified_at !== NULL)
                         <div class="col-sm-offset-2 col-sm-10">
@@ -171,8 +173,56 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /All Matches -->
-                    <!-- CS Matches -->
+                    <div role="tabpanel" class="tab-pane" id="tab-payments">
+                        <div class="youplay-matches-list">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    Платеж и статус
+                                </div>
+                                <div class="col-md-3">
+                                    Проверить статус
+                                </div>
+                                @php
+                                    $payment_id = 0;
+                                @endphp
+                                @foreach($yookassa as $item)
+                                    <div class="col-md-12" style="margin-top: 10px">
+                                        <div class="col-md-9" style="@if($payment_id !== $item->payment_id)padding-top:10px;@else margin-top:-10px;@endif background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                            @if($payment_id !== $item->payment_id)
+                                                {{ $item->description }}, Стоимость {{ $item->amount }}<br>
+                                                <div class="col-md-6">
+                                                    Что в заказе было:
+                                                </div>
+                                            @endif
+                                            @if($payment_id == $item->payment_id)
+                                                <div class="col-md-6">
+
+                                                </div>
+                                            @endif
+                                            <div class="col-md-6">
+                                                {{ $item->title }}<br>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                            @if($payment_id !== $item->payment_id)
+                                                @if($item->status == 'succeeded')
+                                                    Успешный
+                                                @elseif($item->status == 'pending')
+                                                    <a href="{{ $item->payment_link }}">Завершить платеж</a>
+                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
+                                                @elseif($item->status == 'waiting_for_capture')
+                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
+                                                @endif
+                                                @php
+                                                    $payment_id = $item->payment_id;
+                                                @endphp
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                     <div role="tabpanel" class="tab-pane" id="tab-settings">
                         <form>
                             @csrf
@@ -220,21 +270,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /CS Matches -->
                 </div>
             </div>
-{{--
-            <ul class="pagination dib">
-                <li class="active">
-                    <span class='page-numbers current'>1</span>
-                </li>
-                <li>
-                    <a href='#'>2</a>
-                </li>
-                <li>
-                    <a href="#">Next</a>
-                </li>
-            </ul>--}}
         </div>
         <!-- Right Side -->
         <div class="col-md-3">
@@ -248,7 +285,6 @@
             <div class="side-block">
                 <h4 class="block-title">Купленные товары</h4>
                 <div class="block-content p-0">
-                    <!-- Single News Block -->
                     @foreach($orders as $order)
                         @foreach($shop as $item)
                             @if($order->shop_id == $item->id)
@@ -279,7 +315,6 @@
                             @endif
                         @endforeach
                     @endforeach
-                    <!-- /Single News Block -->
                     </div>
                 </div>
         </div>

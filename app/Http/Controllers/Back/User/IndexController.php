@@ -19,6 +19,18 @@ class IndexController extends Controller
             ->where('email',Auth::user()->email)
             ->select('login','email')
             ->get();
+        $orders = DB::connection('mysql')
+            ->table('orders')
+            ->where('user_id',Auth::user()->id)
+            ->get();
+        $yookassa = DB::connection('mysql')
+            ->table('orders')
+            ->join('shop','shop.id','=','orders.shop_id')
+            ->join('yookassa','orders.payment_id','=','yookassa.payment_id')
+            ->where('yookassa.user_id',Auth::user()->id)
+            ->select('yookassa.description','yookassa.amount','orders.payment_id','yookassa.status','shop.title','yookassa.payment_link','yookassa.id')
+            ->where('yookassa.status','!=','cancelled')
+            ->get();
         $chars = DB::connection('l2flame')
             ->table('accounts')
             ->where('email',Auth::user()->email)
@@ -31,6 +43,7 @@ class IndexController extends Controller
             ->where('user_id',Auth::user()->id)
             ->where('postponed',0)
             ->join('item','paid_item.item_id','=','item.id')
+            ->select('item.name','item.id','paid_item.count')
             ->get();
         $data = array_merge($this->data(),
             [
@@ -38,6 +51,8 @@ class IndexController extends Controller
                 'chars' => $chars,
                 'shop' => $shop,
                 'paid_item' => $paid_item,
+                'orders' => $orders,
+                'yookassa' => $yookassa,
             ]);
         return view('back.users.index',$data);
     }
