@@ -93,10 +93,11 @@ Route::group($back,function(){
         // Accounts
         Route::get('/account',['uses' => 'AccountsController@index','as' => 'admin-accounts-index']);
         //orders
-        Route::match(['GET','POST'],'/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
-        Route::match(['GET','POST'],'/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);
-        Route::match(['GET','POST'],'/orders/edit/{id}',['uses' => 'OrdersController@edit','as'=>'admin-orders-edit']);
-        Route::match(['GET','POST'],'/orders/delete/{id}',['uses' => 'OrdersController@delete','as'=>'admin-orders-delete']);
+        Route::get('/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
+        Route::post('/orders/search',['uses' => 'OrdersController@search','as'=>'admin-orders-search']);
+        Route::post('/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);
+        Route::post('/orders/edit/{id}',['uses' => 'OrdersController@edit','as'=>'admin-orders-edit']);
+        Route::post('/orders/delete/{id}',['uses' => 'OrdersController@delete','as'=>'admin-orders-delete']);
         //items
         Route::match(['GET','POST'],'/items',['uses' => 'ItemsController@index','as'=>'admin-items-index']);
         Route::match(['GET','POST'],'/items/add',['uses' => 'ItemsController@add','as'=>'admin-items-add']);

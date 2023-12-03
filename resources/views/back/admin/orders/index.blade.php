@@ -2,37 +2,60 @@
 @section('content')
     <div class="container youplay-content" style="margin-top: 100px">
         <div class="row">
-            <a href="{{ route('admin-tags-add') }}" class="btn btn-success">Добавить</a>
+            @if(isset($msg) && $msg !== '')
+                {{ $msg }}
+            @endif
+            <form method="post" action="{{ route('admin-orders-search') }}">
+                @csrf
+                <div class="youplay-input">
+                    <input type="text" name="search" placeholder="Название или часть">
+                </div>
+            </form>
             <table class="youplay-messages table table-hover">
                 <thead>
                 <tr>
-                    <td style="width: 60%">Тег</td>
-                    <td>Действия</td>
+                    <td>Имя и емаил</td>
+                    <td>Название купленого итема</td>
+                    <td>Кол-во и Цена</td>
+                    <td>Заказ№</td>
+                    <td>Ид заказа</td>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($tags as $item)
+                    @foreach($orders as $item)
                         <tr class="message-unread">
-                            <td>{{ $item->name }}</td>
                             <td>
-                                <a href="{{ route('admin-tags-edit',$item->id) }}" class="btn btn-success">Редактировать</a>
-                                <a href="{{ route('admin-tags-delete',$item->id) }}" onclick="return confirm('Точно удалить данный тег в новостях и на форуме?')" class="btn btn-danger">Удалить</a>
+                                {{ $item->name }}<br>
+                                {{ $item->email }}
+                            </td>
+                            <td>
+                                {{ $item->title }}
+                            </td>
+                            <td>
+                                Кол-во: {{ $item->count }}<br>
+                                Цена: {{ $item->amount }}
+                            </td>
+                            <td>
+                                {{ $item->description }}
+                            </td>
+                            <td>
+                                {{ $item->payment_id }}
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            @if($tags->hasPages())
+            @if($orders->hasPages())
                 <ul class="pagination">
                     <li>
-                        <a href="{{ $tags->previousPageUrl() }}">
+                        <a href="{{ $orders->previousPageUrl() }}">
                             Назад
                         </a>
                     </li>
-                    @for($i=1;$i<$tags->lastPage()+1;$i++)
-                        <li @if($i == $tags->currentPage())class="active"@endif><a href="{{ route('admin-tags-index')."?page=".$i }}"><span>{{ $i }}</span></a></li>
+                    @for($i=1;$i<$orders->lastPage()+1;$i++)
+                        <li @if($i == $orders->currentPage())class="active"@endif><a href="{{ route('admin-orders-index')."?page=".$i }}"><span>{{ $i }}</span></a></li>
                     @endfor
-                    <li><a href="{{ $tags->nextPageUrl() }}">Вперед</a></li>
+                    <li><a href="{{ $orders->nextPageUrl() }}">Вперед</a></li>
                 </ul>
             @endif
         </div>

@@ -111,84 +111,81 @@ class PaymentController extends FrontController
             foreach ($yookassa as $item){
                 $amount = $item->amount;
                 $payment_id = $item->payment_id;
-                $paid_at = $item->paid_at;
-            }
-            if($paid_at == null){
-                return view('front.payment.error');
             }
             $payment = $this->connent()->getPaymentInfo($payment_id);
-            $this->connent()->capturePayment([
-                'amount' => $amount,
-            ],
-                $payment_id,
-                uniqid('', true)
-            );
-            DB::table('yookassa')
-                ->where('id',$id)
-                ->update([
-                    'status' => $payment['status'],
-                    'paid_at' => date("Y-m-d H:i:s"),
-                ]);
             if($payment['status'] == 'waiting_for_capture'){
-                DB::connection('mysql')
-                    ->table('orders')
-                    ->where('payment_id',$payment_id)
-                    ->update([
-                        'status' => 1
-                    ]);
-                DB::connection('mysql')
-                    ->table('cart')
-                    ->where('user_id',$user_id)
-                    ->delete();
-                $orders = DB::connection('mysql')
-                    ->table('orders')
-                    ->where('payment_id',$payment_id)
-                    ->get();
-                $paid_item = DB::connection('mysql')
-                    ->table('paid_item')
-                    ->where('user_id',$user_id)
-                    ->where('postponed', 0)
-                    ->get();
-                if(empty($paid_item)){
-                    foreach ($paid_item as $item){
-                        foreach ($orders as $order){
-                            if($item->item_id == $order->shop_id){
-                                DB::connection('mysql')
-                                    ->table('paid_item')
-                                    ->where('item_id', $order->shop_id)
-                                    ->update([
-                                        'count' => $item->count + $order->count,
-                                    ]);
-                            } else {
-                                DB::connection('mysql')
-                                    ->table('paid_item')
-                                    ->insert([
-                                        'user_id' => $order->user_id,
-                                        'item_id' => $order->shop_id,
-                                        'count' => $order->count,
-                                    ]);
+                $this->connent()->capturePayment([
+                    'amount' => $amount,
+                ],
+                    $payment_id,
+                    uniqid('', true)
+                );
+                $payment = $this->connent()->getPaymentInfo($payment_id);
+                if($payment['status'] == 'succeeded'){
+                    DB::table('yookassa')
+                        ->where('id',$id)
+                        ->update([
+                            'status' => $payment['status'],
+                            'paid_at' => date("Y-m-d H:i:s"),
+                        ]);
+                    DB::connection('mysql')
+                        ->table('orders')
+                        ->where('payment_id',$payment_id)
+                        ->update([
+                            'status' => 1
+                        ]);
+                    DB::connection('mysql')
+                        ->table('cart')
+                        ->where('user_id',$user_id)
+                        ->delete();
+                    $orders = DB::connection('mysql')
+                        ->table('orders')
+                        ->where('payment_id',$payment_id)
+                        ->get();
+                    $paid_item = DB::connection('mysql')
+                        ->table('paid_item')
+                        ->where('user_id',$user_id)
+                        ->where('postponed', 0)
+                        ->get();
+                    if(empty($paid_item)){
+                        foreach ($paid_item as $item){
+                            foreach ($orders as $order){
+                                if($item->item_id == $order->shop_id){
+                                    DB::connection('mysql')
+                                        ->table('paid_item')
+                                        ->where('item_id', $order->shop_id)
+                                        ->update([
+                                            'count' => $item->count + $order->count,
+                                        ]);
+                                } else {
+                                    DB::connection('mysql')
+                                        ->table('paid_item')
+                                        ->insert([
+                                            'user_id' => $order->user_id,
+                                            'item_id' => $order->shop_id,
+                                            'count' => $order->count,
+                                        ]);
+                                }
                             }
                         }
+                    } else {
+                        foreach ($orders as $order) {
+                            DB::connection('mysql')
+                                ->table('paid_item')
+                                ->insert([
+                                    'user_id' => $order->user_id,
+                                    'item_id' => $order->shop_id,
+                                    'count' => $order->count,
+                                ]);
+                        }
                     }
+                    return view('front.payment.success');
                 } else {
-                    foreach ($orders as $order) {
-                        DB::connection('mysql')
-                            ->table('paid_item')
-                            ->insert([
-                                'user_id' => $order->user_id,
-                                'item_id' => $order->shop_id,
-                                'count' => $order->count,
-                            ]);
-                    }
+                    return view('front.payment.error');
                 }
-                $payment = $this->connent()->getPaymentInfo($payment_id);
-                DB::table('yookassa')
-                    ->where('id',$id)
-                    ->update([
-                        'status' => $payment['status'],
-                    ]);
-                return view('front.payment.success');
-            }  elseif ($payment['status'] == 'succeeded'){
+            } elseif ($payment['status'] == 'succeeded'){
+                return view('front.payment.error');
+            } else {
                 return view('front.payment.error');
             }
         } else {

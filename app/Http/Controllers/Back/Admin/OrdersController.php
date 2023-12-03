@@ -10,8 +10,47 @@ class OrdersController extends AdminBaseController
 {
     public function index()
     {
+        $orders = DB::connection('mysql')
+            ->table('orders')
+            ->join('shop','shop.id','=','orders.shop_id')
+            ->join('yookassa','orders.payment_id','=','yookassa.payment_id')
+            ->join('users','users.id','=','orders.user_id')
+            ->select('users.name',
+                'users.email',
+                'orders.count',
+                'orders.payment_id',
+                'orders.amount',
+                'shop.title',
+                'yookassa.description'
+            )
+            ->paginate(50);
         $data = array_merge($this->data(),[
-
+            'orders' => $orders
+        ]);
+        return view('back.admin.orders.index',$data);
+    }
+    public function search(Request $request){
+        $search = $request['search'];
+        $orders = DB::connection('mysql')
+            ->table('orders')
+            ->join('shop','shop.id','=','orders.shop_id')
+            ->join('yookassa','orders.payment_id','=','yookassa.payment_id')
+            ->join('users','users.id','=','orders.user_id')
+            ->select('users.name',
+                'users.email',
+                'orders.count',
+                'orders.payment_id',
+                'orders.amount',
+                'shop.title',
+                'yookassa.description'
+            )
+            ->where('yookassa.description','LIKE',"%$search%")
+            ->orWhere('users.name', '=',"$search")
+            ->orWhere('orders.payment_id', '=',"$search")
+            ->paginate(50);
+        $data = array_merge($this->data(),[
+            'orders' => $orders,
+            'msg' => 'Поиск по ' . $search
         ]);
         return view('back.admin.orders.index',$data);
     }

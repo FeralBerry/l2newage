@@ -17,7 +17,7 @@ class IndexController extends AdminBaseController
         $count_users = count(User::all());
         $count_paid_items = count(PaidItem::all());
         $count_items = count(Item::all());
-        $count_orders = count(DB::table('orders')->get());
+        $count_orders = count(DB::table('orders')->where('payment_id','!=',NULL)->where('status',1)->get());
         $count_news = count(News::all());
         $count_tags = count(TagName::all());
         $data = array_merge($this->data(),[
