@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Mail;
 class KnowledgeBaseController extends FrontController
 {
     public function index(){
+        $data = array_merge($this->data(),[
 
-
+        ]);
+        return view('front.knowledge.pages.main',$data);
     }
 }

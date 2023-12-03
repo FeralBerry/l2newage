@@ -19,8 +19,8 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function data(){
         $orders = DB::table('orders')
-            ->orderBy('updated_at')
-            ->paginate(20);
+            ->orderByDesc('updated_at')
+            ->paginate(6);
         $data = [
             'latest_news' => $this->latestNews(),
             'latest_forum' => $this->lastForum(),

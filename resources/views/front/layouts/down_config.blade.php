@@ -409,55 +409,99 @@
             });
         });
     });
-    $(document).ready(function(){
-        $('#move_character').click(function (){
-            let char = $(".char:checked").val();
-            let elem_id = '';
-            let elem_count = '';
-            let myModalLabel = $('#myModalLabel');
-            let modalGerBody = $('#modal_ger_body');
-            if(char === null){
-                document.getElementById('myModal').style.display = 'block';
-                setTimeout(function(){
-                    document.getElementById('myModal').style.display = 'none';
-                }, 5000);
-                myModalLabel.html('Ошибка выбора персонажа.');
-                modalGerBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+    $('#move_character').click(function (){
+        let char = $(".char:checked").val();
+        let elem_id = '';
+        let elem_count = '';
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        if(typeof char == 'undefined'){
+            document.getElementById('newPasswordModal').style.display = 'block';
+            newPasswordLabel.html('Ошибка выбора персонажа.');
+            newPasswordBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+            setTimeout(function(){
+                document.getElementById('newPasswordModal').style.display = 'none';
+            }, 5000);
+        }
+        document.querySelectorAll('.item').forEach(function(elem) {
+            if(elem.checked){
+                elem_id = elem_id + elem.value + ' ';
+                elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
             }
-            document.querySelectorAll('.item').forEach(function(elem) {
-                if(elem.checked){
-                    elem_id = elem_id + elem.value + ' ';
-                    elem_count = elem_count + document.getElementById('item_count'+elem.value).value + " ";
-                }
-            });
-            if(elem_id === '' || elem_count === '' && elem_count === 0){
-                document.getElementById('myModal').style.display = 'block';
+        });
+        if(elem_id === '' || elem_count === '' && elem_count === 0){
+            document.getElementById('newPasswordModal').style.display = 'block';
+            newPasswordLabel.html('Ошибка.');
+            newPasswordBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+            setTimeout(function(){
+                document.getElementById('newPasswordModal').style.display = 'none';
+            }, 5000);
+        }
+        $.ajax({
+            url: "{{ route('user-character-add-item') }}",
+            dataType: 'html',
+            method: 'post',
+            data:{
+                _token: '{{ csrf_token() }}',
+                item_id: elem_id,
+                item_count: elem_count,
+                char: char,
+            },
+            success: function (data) {
+                document.getElementById('newPasswordModal').style.display = 'block';
+                newPasswordLabel.html('Успешная отпрака итемов');
+                newPasswordBody.html(data);
                 setTimeout(function(){
-                    document.getElementById('myModal').style.display = 'none';
+                    document.getElementById('newPasswordModal').style.display = 'none';
                 }, 5000);
-                myModalLabel.html('Ошибка.');
-                modalGerBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+
             }
-            $.ajax({
-                url: "{{ route('user-character-add-item') }}",
-                dataType: 'html',
-                method: 'post',
-                data:{
-                    _token: '{{ csrf_token() }}',
-                    item_id: elem_id,
-                    item_count: elem_count,
-                    char: char,
-                },
-                success: function (data) {
-                    document.getElementById('myModal').style.display = 'block';
-                    setTimeout(function(){
-                        document.getElementById('myModal').style.display = 'none';
-                    }, 5000);
-                    myModalLabel.html('Успешная отпрака итемов');
-                    modalGerBody.html(data);
-                }
-            });
         });
     });
+    function accountEdit(login){
+        let data = "<form>" +
+            "<div class='form-horizontal mt-30 mb-40'>" +
+                "<div class='form-group'>" +
+                "<label class='control-label col-sm-2' for='new_password_for_account'>Новый пароль:</label>" +
+                    "<div class='col-sm-10'>" +
+                        "<div class='youplay-input'>" +
+                            "<input class='input-en' type='password' id='new_password_for_account' name='new_password_for_account' placeholder='Новый пароль:'>" +
+                        "</div>" +
+                    "</div>" +
+                "</div>" +
+                "<div class='form-group'>" +
+                    "<div class='col-sm-offset-2 col-sm-10'>" +
+                        "<a onclick='new_password_for_account(`"+login+"`)' class='btn btn-primary btn-lg'>Изменить</a>" +
+                    "</div>" +
+                "</div>"+
+            "</div></form>";
+        document.getElementById('newPasswordModal').style.display = 'block';
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        newPasswordLabel.html('Изменение пароля от игрового аккаунта ' + login);
+        newPasswordBody.html(data);
+    }
+    function new_password_for_account(login){
+        let new_password_for_account = document.getElementById('new_password_for_account').value;
+        let newPasswordLabel = $('#newPasswordLabel');
+        let newPasswordBody = $('#newPasswordBody');
+        $.ajax({
+            url: "{{ route('user-account-new-password') }}",
+            dataType: 'html',
+            method: 'post',
+            data:{
+                _token: '{{ csrf_token() }}',
+                new_password_for_account: new_password_for_account,
+                login: login,
+            },
+            success: function (data) {
+                newPasswordLabel.html('Изменение пароля от игрового аккаунта ' + login);
+                newPasswordBody.html(data);
+                setTimeout(function(){
+                    document.getElementById('newPasswordModal').style.display = 'none';
+                }, 3000);
+            }
+        });
+    }
 </script>
 

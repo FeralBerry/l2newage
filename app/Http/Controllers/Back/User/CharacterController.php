@@ -63,6 +63,10 @@ class CharacterController extends Controller
         $paid_items = DB::connection('mysql')
             ->table('paid_item')
             ->where('user_id',Auth::user()->id)
+            ->where('postponed',0)
+            ->get();
+        $items = DB::connection('mysql')
+            ->table('item')
             ->get();
         if($not_have_char == true){
             $owner_id = DB::connection('l2flame')
@@ -74,11 +78,17 @@ class CharacterController extends Controller
                 $owner_id = $item->charId;
             }
             $msg = '';
+            $count_items = array();
             foreach ($paid_items as $paid_item){
                 for($i = 0; $i < count($paid_item_id); $i++){
                     if($paid_item->item_id == $paid_item_id[$i]){
                         if($paid_item->count >= $items_count[$i]){
                             $count_items_after = $paid_item->count - $items_count[$i];
+                            foreach ($items as $item){
+                                if($paid_item->item_id == $item->id){
+                                    $count_items[$i] = $items_count[$i] * $item->count;
+                                }
+                            }
                             if($count_items_after > 0){
                                 DB::connection('mysql')
                                     ->table('paid_item')
@@ -107,7 +117,7 @@ class CharacterController extends Controller
                                 ->insert([
                                     'owner_id' => $owner_id,
                                     'item_id' => $items_id[$i],
-                                    'count' => $items_count[$i],
+                                    'count' => $count_items[$i],
                                     'description' => 'Перевод итема с сайта в игру на персонажа',
                                 ]);
                         } else {

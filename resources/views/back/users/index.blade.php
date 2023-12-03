@@ -2,7 +2,7 @@
 @section('content')
 <!-- Banner -->
 <div class="youplay-banner youplay-banner-parallax banner-top small">
-    <div class="image" style="background-image: url({{ asset('front/img/bg/users.jpg') }});">
+    <div class="image" style="background-image: url({{ asset('front/img/bg/user.jpg') }});">
     </div>
     <div class="youplay-user-navigation">
         <div class="container" role="tabpanel">
@@ -12,6 +12,9 @@
                 </li>
                 <li role="presentation">
                     <a href="#tab-accounts" aria-controls="tab-accounts" role="tab" data-toggle="tab" aria-expanded="true">Аккаунты</a>
+                </li>
+                <li role="presentation">
+                    <a href="#tab-payments" aria-controls="tab-payments" role="tab" data-toggle="tab" aria-expanded="true">Платежи</a>
                 </li>
                 <li role="presentation">
                     <a href="#tab-settings" aria-controls="tab-settings" role="tab" data-toggle="tab" aria-expanded="true">Настройки</a>
@@ -33,7 +36,6 @@
         <div class="col-md-9">
             <div role="tabpanel">
                 <div class="tab-content">
-                    <!-- All Matches -->
                     <div role="tabpanel" class="tab-pane active" id="tab-reg">
                         @if(Auth::user()->email_verified_at !== NULL)
                         <div class="col-sm-offset-2 col-sm-10">
@@ -109,16 +111,33 @@
                             <div class="col-md-6">
                                 <h3>Персонажи</h3>
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class='modal fade' id='newPasswordModal' style='display: none'>
+                                        <div class='modal-dialog'>
+                                            <div class='modal-content'>
+                                                <div class='modal-header'>
+                                                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                                                    <h4 class='modal-title' id='newPasswordLabel'></h4>
+                                                </div>
+                                                <div class='modal-body' id='newPasswordBody'>
+
+                                                </div>
+                                                <div class='modal-footer'>
+                                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @foreach($accounts as $account)
+                                    <a onclick="accountEdit('{{ $account->login }}')" data-toggle='modal' data-target='#newPasswordModal' style="position: absolute;z-index: 100;"><i class="fa fa-pencil"></i></a>
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingOne">
+                                        <div class="panel-heading" role="tab" id="heading{{ $account->login }}">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $account->login }}" aria-expanded="false" aria-controls="collapse{{ $account->login }}" class="collapsed">
                                                     {{ $account->login }} <span class="icon-plus"></span>
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                        <div id="collapse{{ $account->login }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ $account->login }}" aria-expanded="false" style="height: 0px;">
                                             <div class="panel-body">
                                                 <div class="row">
                                                     @foreach($chars as $char)
@@ -140,20 +159,70 @@
                                 <h3>Предметы</h3>
                                 <div class="row">
                                 @foreach($paid_item as $item)
-                                    <div class="col-md-12">
-                                        <input class="form-check-input item" type="checkbox" name="item[]" value="{{ $item->id }}">
-                                        <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
-                                        {{ $item->name }}
+                                    <div class="form-group">
+                                        <div class="youplay-checkbox">
+                                            <input class="item" type="checkbox" id="{{ $item->id }}" name="item[]" value="{{ $item->id }}">
+                                            <label for="{{ $item->id }}">{{ $item->name }}</label>
+                                            <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
+                                            <br>
+                                        </div>
                                     </div>
                                 @endforeach
                                 </div>
                                 <a class="btn btn-default" id="move_character">Перевести на персонажа</a>
                             </div>
                         </div>
-
                     </div>
-                    <!-- /All Matches -->
-                    <!-- CS Matches -->
+                    <div role="tabpanel" class="tab-pane" id="tab-payments">
+                        <div class="youplay-matches-list">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    Платеж и статус
+                                </div>
+                                <div class="col-md-3">
+                                    Проверить статус
+                                </div>
+                                @php
+                                    $payment_id = 0;
+                                @endphp
+                                @foreach($yookassa as $item)
+                                    <div class="col-md-12" style="margin-top: 10px">
+                                        <div class="col-md-9" style="@if($payment_id !== $item->payment_id)padding-top:10px;@else margin-top:-10px;@endif background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                            @if($payment_id !== $item->payment_id)
+                                                {{ $item->description }}, Стоимость {{ $item->amount }}<br>
+                                                <div class="col-md-6">
+                                                    Что в заказе было:
+                                                </div>
+                                            @endif
+                                            @if($payment_id == $item->payment_id)
+                                                <div class="col-md-6">
+
+                                                </div>
+                                            @endif
+                                            <div class="col-md-6">
+                                                {{ $item->title }}<br>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                            @if($payment_id !== $item->payment_id)
+                                                @if($item->status == 'succeeded')
+                                                    Успешный
+                                                @elseif($item->status == 'pending')
+                                                    <a href="{{ $item->payment_link }}">Завершить платеж</a>
+                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
+                                                @elseif($item->status == 'waiting_for_capture')
+                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
+                                                @endif
+                                                @php
+                                                    $payment_id = $item->payment_id;
+                                                @endphp
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                     <div role="tabpanel" class="tab-pane" id="tab-settings">
                         <form>
                             @csrf
@@ -201,21 +270,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /CS Matches -->
                 </div>
             </div>
-{{--
-            <ul class="pagination dib">
-                <li class="active">
-                    <span class='page-numbers current'>1</span>
-                </li>
-                <li>
-                    <a href='#'>2</a>
-                </li>
-                <li>
-                    <a href="#">Next</a>
-                </li>
-            </ul>--}}
         </div>
         <!-- Right Side -->
         <div class="col-md-3">
@@ -229,7 +285,6 @@
             <div class="side-block">
                 <h4 class="block-title">Купленные товары</h4>
                 <div class="block-content p-0">
-                    <!-- Single News Block -->
                     @foreach($orders as $order)
                         @foreach($shop as $item)
                             @if($order->shop_id == $item->id)
@@ -260,7 +315,6 @@
                             @endif
                         @endforeach
                     @endforeach
-                    <!-- /Single News Block -->
                     </div>
                 </div>
         </div>

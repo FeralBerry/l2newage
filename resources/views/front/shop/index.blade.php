@@ -25,7 +25,7 @@
                             $img = explode('||',$item->img);
                         @endphp
                         <img src="{{ asset('front/img/shop') }}/{{ $img[0] }}" alt="{{ $item->title }}">
-                        @if($item->percent !== NULL)<div class="badge show bg-default">-{{ $item->percent }}%</div>@endif
+                        @if($item->percent !== 0)<div class="badge show bg-default">-{{ $item->percent }}%</div>@endif
                         @if($item->new == 1)<div class="badge show bg-success" style="right:0;left:auto">NEW</div>@endif
                     </div>
                     <div class="bottom-info">
@@ -187,7 +187,6 @@
             </form>
         </div>
         <!-- /Side Search -->
-        <!-- Side Popular News -->
         <div class="side-block">
             <h4 class="block-title">Купленные товары</h4>
             <div class="block-content p-0">
@@ -215,7 +214,7 @@
                             <div class="col-xs-9 col-md-8">
                                 <h4 class="ellipsis"><a href="{{ route('shop-product',$item->id) }}" title="$item->title">{{$item->title}}</a></h4>
                                 @php $new_price = $item->price - ($item->price * $item->percent  / 100); @endphp
-                                <div class="price">&#8381;{{ $new_price }} <sup><del>&#8381;{{ $item->price }}</del></sup><span class="badge pull-right bg-warning">{{ $order->count }}</span>
+                                <div class="price">&#8381;{{ $new_price }} <sup><del>&#8381;{{ $item->price }}</del></sup><span class="badge pull-right bg-warning">{{ $order->count }}</span></div>
                             </div>
                         </div>
                         @endif
@@ -224,7 +223,6 @@
                 <!-- /Single News Block -->
             </div>
         </div>
-        <!-- /Side Popular News -->
     </div>
     <!-- /Right Side -->
 </div>

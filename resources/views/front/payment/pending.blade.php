@@ -16,7 +16,8 @@
     <div class="container youplay-content">
         <div class="col-md-12">
             <div id="cart-main">
-                <h3>Платеж успешно подтвержден! Все купленые вещи начислены на аккаунт, для перевода в игру на персонажа перейдите в соответствующий раздел.</h3>
+                Для подтверждения платежа нажмите на кнопку
+                <a href="{{ route('payment-success',['id' => $id,'user_id' => $user_id]) }}">Подтвердить платеж</a>
             </div>
         </div>
         <!-- Right Side -->

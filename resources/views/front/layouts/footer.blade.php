@@ -5,6 +5,15 @@
         <div class="social">
             <div class="container">
                 <h3>Различные способы связи <strong>L2NewAge</strong></h3>
+                <div class="row" style="font-size: 20px">
+                    <div class="col-md-6" style="text-align: left">
+                        Владелец сайта Комаров Павел Сергеевич<br>
+                        ИНН 77315888460
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                        Почта для связи: <a href="mailto:support@l2newage.ru">support@l2newage.ru</a>
+                    </div>
+                </div>
                 <div class="social-icons">
                     <div class="social-icon">
                         <a href="#!">
@@ -41,7 +50,6 @@
             </div>
         </div>
         <!-- /Copyright -->
-
     </div>
 </footer>
 <!-- /Footer -->
