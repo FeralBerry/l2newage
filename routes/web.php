@@ -92,6 +92,10 @@ Route::group($back,function(){
         Route::post('/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
         // Accounts
         Route::get('/account',['uses' => 'AccountsController@index','as' => 'admin-accounts-index']);
+        //Character
+        Route::get('/character/{id}',['uses' => 'AccountsController@characterIndex','as' => 'admin-character-index']);
+        Route::post('/character/edit/{id}',['uses' => 'AccountsController@characterEdit','as' => 'admin-character-edit']);
+        Route::post('/character/delete/{id}',['uses' => 'AccountsController@characterDelete','as' => 'admin-character-delete']);
         //orders
         Route::get('/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
         Route::post('/orders/search',['uses' => 'OrdersController@search','as'=>'admin-orders-search']);

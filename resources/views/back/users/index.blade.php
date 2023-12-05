@@ -30,6 +30,22 @@
         </div>
     </div>
 </div>
+<div class='modal fade' id='moveCharacterModal' style='display: none;padding-top: 100px'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                <h4 class='modal-title' id='moveCharacterLabel'></h4>
+            </div>
+            <div class='modal-body' id='moveCharacterBody'>
+
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /Banner -->
 <div class="container youplay-content">
     <div class="row">
@@ -141,12 +157,14 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     @foreach($chars as $char)
-                                                    <div class="col-md-9">
-                                                        {{ $char->char_name }}@if($char->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <input class="form-check-input char" type="radio" name="char" value="{{ $char->char_name }}">
-                                                    </div>
+                                                        @if($char->login == $account->login)
+                                                            <div class="col-md-9">
+                                                                {{ $char->char_name }}@if($char->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input class="form-check-input char" type="radio" name="char" value="{{ $char->char_name }}">
+                                                            </div>
+                                                        @endif
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -160,7 +178,7 @@
                                 <div class="row">
                                 @foreach($paid_item as $item)
                                     <div class="form-group">
-                                        <div class="youplay-checkbox">
+                                        <div class="youplay-checkbox" id="item{{ $item->id }}">
                                             <input class="item" type="checkbox" id="{{ $item->id }}" name="item[]" value="{{ $item->id }}">
                                             <label for="{{ $item->id }}">{{ $item->name }}</label>
                                             <input class="form-check-input" style="width: 50px" type="number" name="count" min="1" max="{{ $item->count }}" id="item_count{{ $item->id }}" value="{{ $item->count }}">
@@ -285,7 +303,7 @@
             <div class="side-block">
                 <h4 class="block-title">Купленные товары</h4>
                 <div class="block-content p-0">
-                    @foreach($orders as $order)
+                    @foreach($ordersAll as $order)
                         @foreach($shop as $item)
                             @if($order->shop_id == $item->id)
                                 <div class="row youplay-side-news">
