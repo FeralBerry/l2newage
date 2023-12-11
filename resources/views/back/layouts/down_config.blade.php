@@ -1,23 +1,54 @@
+<!-- Object Fit Polyfill -->
+<script src="{{ asset('front/vendor/object-fit-images/dist/ofi.min.js') }}"></script>
+
 <!-- jQuery -->
-<script type="text/javascript" src="{{ asset('front/bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('front/vendor/jquery/dist/jquery.min.js') }}"></script>
+
 <!-- Hexagon Progress -->
-<script type="text/javascript" src="{{ asset('front/bower_components/HexagonProgress/jquery.hexagonprogress.min.js') }}"></script>
+<script src="{{ asset('front/vendor/HexagonProgress/jquery.hexagonprogress.min.js') }}"></script>
+
 <!-- Bootstrap -->
-<script type="text/javascript" src="{{ asset('front/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('front/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
 <!-- Jarallax -->
-<script type="text/javascript" src="{{ asset('front/bower_components/jarallax/dist/jarallax.min.js') }}"></script>
-<!-- Smooth Scroll -->
-<script type="text/javascript" src="{{ asset('front/bower_components/smoothscroll-for-websites/SmoothScroll.js') }}"></script>
-<!-- Owl Carousel -->
-<script type="text/javascript" src="{{ asset('front/bower_components/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-<!-- Countdown -->
-<script type="text/javascript" src="{{ asset('front/bower_components/jquery.countdown/dist/jquery.countdown.min.js') }}"></script>
-<!-- Youplay -->
-<script type="text/javascript" src="{{ asset('front/youplay/js/youplay.min.js') }}"></script>
+<script src="{{ asset('front/vendor/jarallax/dist/jarallax.min.js') }}"></script>
+
+<!-- Flickity -->
+<script src="{{ asset('front/vendor/flickity/dist/flickity.pkgd.min.js') }}"></script>
+
+<!-- jQuery Countdown -->
+<script src="{{ asset('front/vendor/jquery-countdown/dist/jquery.countdown.min.js') }}"></script>
+
+<!-- Moment.js -->
+<script src="{{ asset('front/vendor/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('front/vendor/moment-timezone/builds/moment-timezone-with-data.min.js') }}"></script>
+
+<!-- Magnific Popup -->
+<script src="{{ asset('front/vendor/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
+
+<!-- Revolution Slider -->
+<script src="{{ asset('front/vendor/slider-revolution/js/jquery.themepunch.tools.min.js') }}"></script>
+<script src="{{ asset('front/vendor/slider-revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
+
 <!-- ImagesLoaded -->
-<script type="text/javascript" src="{{ asset('front/bower_components/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+<script src="{{ asset('front/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+
 <!-- Isotope -->
-<script type="text/javascript" src="{{ asset('front/bower_components/isotope/dist/isotope.pkgd.min.js') }}"></script>
+<script src="{{ asset('front/vendor/isotope-layout/dist/isotope.pkgd.min.js') }}"></script>
+
+<!-- Bootstrap Validator -->
+<script src="{{ asset('front/vendor/bootstrap-validator/dist/validator.min.js') }}"></script>
+
+<!-- Bootstrap Sweetalert -->
+<script src="{{ asset('front/vendor/bootstrap-sweetalert/dist/sweetalert.min.js') }}"></script>
+
+<!-- Social Likes -->
+<script src="{{ asset('front/vendor/social-likes/dist/social-likes.min.js') }}"></script>
+
+<!-- Youplay -->
+<script src="{{ asset('front/js/youplay.min.js') }}"></script>
+<script src="{{ asset('front/js/youplay-init.js') }}"></script>
+
 <!-- init youplay -->
 <script>
     if(typeof youplay !== 'undefined') {
@@ -96,3 +127,4 @@
         });
     }
 </script>
+

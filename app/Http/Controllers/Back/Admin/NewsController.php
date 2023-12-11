@@ -8,10 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class NewsController extends AdminBaseController
 {
-    public function index()
-    {
+    public function index(){
+        $news = DB::connection('mysql')
+            ->table('news')
+            ->orderByDesc('updated_at')
+            ->paginate(20);
+        $tag_name = DB::connection('mysql')
+            ->table('tag_name')
+            ->get();
         $data = array_merge($this->data(),[
-
+            "news" => $news,
+            "tag_name" => $tag_name
         ]);
         return view('back.admin.news.index',$data);
     }

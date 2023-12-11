@@ -95,6 +95,7 @@ Route::group($back,function(){
         //Character
         Route::get('/character/{id}',['uses' => 'AccountsController@characterIndex','as' => 'admin-character-index']);
         Route::post('/character/edit/{id}',['uses' => 'AccountsController@characterEdit','as' => 'admin-character-edit']);
+        Route::post('/character/search',['uses' => 'AccountsController@characterSearch','as' => 'admin-character-search']);
         Route::post('/character/delete/{id}',['uses' => 'AccountsController@characterDelete','as' => 'admin-character-delete']);
         //orders
         Route::get('/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);

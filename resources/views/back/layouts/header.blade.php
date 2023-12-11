@@ -36,7 +36,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="#">Все новости</a></li>
+                            <li><a href="{{ route('admin-news-index') }}">Все новости</a></li>
                             <li><a href="#">Форум</a></li>
                             <li><a href="#">Теги</a></li>
                         </ul>

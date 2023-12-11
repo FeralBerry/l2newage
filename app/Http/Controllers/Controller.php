@@ -54,7 +54,7 @@ class Controller extends BaseController
         return $data;
     }
     public function latestNews(){
-        $news = News::all()->sortBy('created_at')->take(5);
+        $news = News::all()->sortByDesc('created_at')->take(5);
         return $news;
     }
     public function seo(){
@@ -63,7 +63,7 @@ class Controller extends BaseController
     }
     public function lastForum(){
         $last_forum = Forum::all()
-            ->sortBy('updated_at')
+            ->sortByDesc('updated_at')
             ->take(5);
         return $last_forum;
     }

@@ -18,16 +18,47 @@
 <link rel="icon" type="image/png" href="{{ asset('front/img/icon.png') }}">
 <!-- Google Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
+
 <!-- Bootstrap -->
-<link rel="stylesheet" type="text/css" href="{{ asset('front/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('front/vendor/bootstrap/dist/css/bootstrap.min.css') }}" />
+
+<!-- Flickity -->
+<link rel="stylesheet" href="{{ asset('front/vendor/flickity/dist/flickity.min.css') }}" />
+
+<!-- Magnific Popup -->
+<link rel="stylesheet" href="{{ asset('front/vendor/magnific-popup/dist/magnific-popup.css') }}" />
+
+<!-- Revolution Slider -->
+<link rel="stylesheet" href="{{ asset('front/vendor/slider-revolution/css/settings.css') }}">
+<link rel="stylesheet" href="{{ asset('front/vendor/slider-revolution/css/layers.css') }}">
+<link rel="stylesheet" href="{{ asset('front/vendor/slider-revolution/css/navigation.css') }}">
+
+<!-- Bootstrap Sweetalert -->
+<link rel="stylesheet" href="{{ asset('front/vendor/bootstrap-sweetalert/dist/sweetalert.css') }}" />
+
+<!-- Social Likes -->
+<link rel="stylesheet" href="{{ asset('front/vendor/social-likes/dist/social-likes_flat.css') }}" />
+
 <!-- FontAwesome -->
-<link rel="stylesheet" type="text/css" href="{{ asset('front/css/font-awesome.css') }}" />
-<!-- Owl Carousel -->
-<link rel="stylesheet" type="text/css" href="{{ asset('front/bower_components/owl.carousel/dist/assets/owl.carousel.min.css') }}" />
+<script defer src="{{ asset('front/vendor/font-awesome/svg-with-js/js/fontawesome-all.min.js') }}"></script>
+<script defer src="{{ asset('front/vendor/font-awesome/svg-with-js/js/fa-v4-shims.min.js') }}"></script>
+
 <!-- Youplay -->
-<link rel="stylesheet" type="text/css" href="{{ asset('front/youplay/css/youplay.min.css') }}" />
-<!-- Custom Styles -->
-<link rel="stylesheet" type="text/css" href="{{ asset('front/css/custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('front/css/youplay.css') }}">
+
+<!-- RTL (uncomment this to enable RTL support) -->
+<!-- <link rel="stylesheet" href="{{ asset('front/css/youplay-rtl.min.css') }}" /> -->
+
+
+
+<!-- END: Styles -->
+
+<!-- jQuery -->
+<script src="{{ asset('front/vendor/jquery/dist/jquery.min.js') }}"></script>
+
+
+
 <!-- RTL (uncomment this to enable RTL support) -->
 <!-- <link rel="stylesheet" type="text/css" href="../assets/youplay/css/youplay-rtl.css" /> -->
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>

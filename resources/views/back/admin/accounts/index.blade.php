@@ -2,7 +2,15 @@
 @section('content')
     <div class="container youplay-content" style="margin-top: 100px">
         <div class="row">
-            <a href="{{ route('admin-tags-add') }}" class="btn btn-success">Добавить</a>
+            @if(isset($msg) && $msg !== '')
+                {{ $msg }}
+            @endif
+            <form method="post" action="{{ route('admin-character-search') }}">
+                @csrf
+                <div class="youplay-input">
+                    <input type="text" name="search" placeholder="Название или часть">
+                </div>
+            </form>
             <table class="youplay-messages table table-hover">
                 <thead>
                 <tr>
@@ -20,7 +28,7 @@
                         <tr class="message-unread">
                             <td>{{ $item->login }}</td>
                             <td>{{ $item->email }}</td>
-                            <td><span @if($item->accessLevel == 100)style="color:red"@endif>{{ $item->char_name }}</span>@if($char->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif</td>
+                            <td><span @if($item->accessLevel == 100)style="color:red"@endif>{{ $item->char_name }}</span>@if($item->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif</td>
                             <td>{{ $item->level }}</td>
                             <td>{{ $item->charId }}</td>
                             <td>ПВП:{{ $item->pvpkills }} ПК:{{ $item->pkkills }}</td>
