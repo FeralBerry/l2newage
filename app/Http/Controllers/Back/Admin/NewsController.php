@@ -22,13 +22,22 @@ class NewsController extends AdminBaseController
         ]);
         return view('back.admin.news.index',$data);
     }
-    public function add(Request $request){
+    public function add(){
+        $tag_name = DB::connection('mysql')
+            ->table('tag_name')
+            ->get();
         $data = array_merge($this->data(),[
-
+            "tag_name" => $tag_name
         ]);
         return view('back.admin.news.add',$data);
     }
-    public function edit(Request $request, $id){
+    public function addNews(Request $request){
+        $data = array_merge($this->data(),[
+
+        ]);
+        return redirect()->route('');
+    }
+    public function edit($id){
         $data = array_merge($this->data(),[
 
         ]);

@@ -61,14 +61,14 @@
 
 <!-- RTL (uncomment this to enable RTL support) -->
 <!-- <link rel="stylesheet" type="text/css" href="../assets/youplay/css/youplay-rtl.css" /> -->
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+@if(
+    Route::is('admin-rules-edit') || Route::is('admin-rules-index') ||
+    Route::is('admin-news-edit-index') || Route::is('admin-news-add-index')
+)
+<script src="{{ asset('front/js/tinymce/tinymce.min.js') }}"></script>
 <script>
-    tinymce.init({
-        selector: [
-            '#rules',
-            '#news',
-            '#shop_product',
-
-        ]
-    });
+    tinymce.init(
+    {selector:'textarea'}
+    );
 </script>
+@endif

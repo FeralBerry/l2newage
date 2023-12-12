@@ -114,10 +114,12 @@ Route::group($back,function(){
         Route::match(['GET','POST'],'/paid/items/edit/{id}',['uses' => 'PaidItemsController@edit','as'=>'admin-paid-items-edit']);
         Route::match(['GET','POST'],'/paid/items/delete/{id}',['uses' => 'PaidItemsController@delete','as'=>'admin-paid-items-delete']);
         //news
-        Route::match(['GET','POST'],'/news',['uses' => 'NewsController@index','as'=>'admin-news-index']);
-        Route::match(['GET','POST'],'/news/add',['uses' => 'NewsController@add','as'=>'admin-news-add']);
-        Route::match(['GET','POST'],'/news/edit/{id}',['uses' => 'NewsController@edit','as'=>'admin-news-edit']);
-        Route::match(['GET','POST'],'/news/delete/{id}',['uses' => 'NewsController@delete','as'=>'admin-news-delete']);
+        Route::get('/news',['uses' => 'NewsController@index','as'=>'admin-news-index']);
+        Route::get('/news/add',['uses' => 'NewsController@add','as'=>'admin-news-add-index']);
+        Route::post('/news/add',['uses' => 'NewsController@addNews','as'=>'admin-news-add']);
+        Route::get('/news/edit/{id}',['uses' => 'NewsController@edit','as'=>'admin-news-edit-index']);
+        Route::post('/news/edit/{id}',['uses' => 'NewsController@editNews','as'=>'admin-news-edit']);
+        Route::post('/news/delete/{id}',['uses' => 'NewsController@delete','as'=>'admin-news-delete']);
         //tags
         Route::match(['GET','POST'],'/tags',['uses' => 'TagsController@index','as'=>'admin-tags-index']);
         Route::match(['GET','POST'],'/tags/add',['uses' => 'TagsController@add','as'=>'admin-tags-add']);
