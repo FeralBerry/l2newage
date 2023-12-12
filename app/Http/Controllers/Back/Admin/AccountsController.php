@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\DB;
 class AccountsController extends AdminBaseController
 {
     public function index(){
+        $accounts = DB::connection('l2flame')
+            ->table('accounts')
+            ->join('characters','characters.account_name','=','accounts.login')
+            ->select('login','email','characters.accessLevel','level','char_name','charId','pvpkills','pkkills','online')
+            ->paginate(20);
         $data = array_merge($this->data(),[
-
+            'accounts' => $accounts
         ]);
         return view('back.admin.accounts.index',$data);
     }

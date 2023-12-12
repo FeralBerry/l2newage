@@ -6,33 +6,43 @@
             <table class="youplay-messages table table-hover">
                 <thead>
                 <tr>
-                    <td style="width: 60%">Тег</td>
+                    <td>Логин</td>
+                    <td>Емаил</td>
+                    <td>Имя персонажа</td>
+                    <td>Уровень</td>
+                    <td>ИДперсонажа</td>
+                    <td>ПВП и ПК</td>
                     <td>Действия</td>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($tags as $item)
+                    @foreach($accounts as $item)
                         <tr class="message-unread">
-                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->login }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td><span @if($item->accessLevel == 100)style="color:red"@endif>{{ $item->char_name }}</span>@if($char->online == 1)<sup><span class="badge bg-success" style="color:#2BD964;padding: 0;font-size: 9px">1</span></sup>@else<sup><span class="badge bg-default" style="color:#d92b4c;padding: 0;font-size: 9px">1</span></sup>@endif</td>
+                            <td>{{ $item->level }}</td>
+                            <td>{{ $item->charId }}</td>
+                            <td>ПВП:{{ $item->pvpkills }} ПК:{{ $item->pkkills }}</td>
                             <td>
-                                <a href="{{ route('admin-tags-edit',$item->id) }}" class="btn btn-success">Редактировать</a>
-                                <a href="{{ route('admin-tags-delete',$item->id) }}" onclick="return confirm('Точно удалить данный тег в новостях и на форуме?')" class="btn btn-danger">Удалить</a>
+                                <a href="{{ route('admin-character-index',$item->charId) }}" class="btn btn-success">Редактировтаь</a>
+                                <a href="{{ route('admin-character-delete',$item->charId) }}" onclick="return confirm('Точно удалить этого персонажа?')" class="btn btn-danger">Удалить</a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            @if($tags->hasPages())
+            @if($accounts->hasPages())
                 <ul class="pagination">
                     <li>
-                        <a href="{{ $tags->previousPageUrl() }}">
+                        <a href="{{ $accounts->previousPageUrl() }}">
                             Назад
                         </a>
                     </li>
-                    @for($i=1;$i<$tags->lastPage()+1;$i++)
-                        <li @if($i == $tags->currentPage())class="active"@endif><a href="{{ route('admin-tags-index')."?page=".$i }}"><span>{{ $i }}</span></a></li>
+                    @for($i=1;$i<$accounts->lastPage()+1;$i++)
+                        <li @if($i == $accounts->currentPage())class="active"@endif><a href="{{ route('admin-accounts-index')."?page=".$i }}"><span>{{ $i }}</span></a></li>
                     @endfor
-                    <li><a href="{{ $tags->nextPageUrl() }}">Вперед</a></li>
+                    <li><a href="{{ $accounts->nextPageUrl() }}">Вперед</a></li>
                 </ul>
             @endif
         </div>

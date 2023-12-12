@@ -413,14 +413,16 @@
         let char = $(".char:checked").val();
         let elem_id = '';
         let elem_count = '';
-        let newPasswordLabel = $('#newPasswordLabel');
-        let newPasswordBody = $('#newPasswordBody');
+        let moveCharacterLabel = $('#moveCharacterLabel');
+        let moveCharacterBody = $('#moveCharacterBody');
         if(typeof char == 'undefined'){
-            document.getElementById('newPasswordModal').style.display = 'block';
-            newPasswordLabel.html('Ошибка выбора персонажа.');
-            newPasswordBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
+            document.getElementById('moveCharacterModal').style.display = 'block';
+            document.getElementById('moveCharacterModal').style.opacity = '1';
+            moveCharacterLabel.html('Ошибка выбора персонажа.');
+            moveCharacterBody.html("Для перевода итемов на персонажа надо выбрать персонажа.");
             setTimeout(function(){
-                document.getElementById('newPasswordModal').style.display = 'none';
+                document.getElementById('moveCharacterModal').style.display = 'none';
+                document.getElementById('moveCharacterModal').style.opacity = '0';
             }, 5000);
         }
         document.querySelectorAll('.item').forEach(function(elem) {
@@ -430,11 +432,13 @@
             }
         });
         if(elem_id === '' || elem_count === '' && elem_count === 0){
-            document.getElementById('newPasswordModal').style.display = 'block';
-            newPasswordLabel.html('Ошибка.');
-            newPasswordBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
+            document.getElementById('moveCharacterModal').style.display = 'block';
+            document.getElementById('moveCharacterModal').style.opacity = '1';
+            moveCharacterLabel.html('Ошибка.');
+            moveCharacterBody.html("Для перевода итемов надо выбрать хотя бы 1 итем.");
             setTimeout(function(){
-                document.getElementById('newPasswordModal').style.display = 'none';
+                document.getElementById('moveCharacterModal').style.display = 'none';
+                document.getElementById('moveCharacterModal').style.opacity = '0';
             }, 5000);
         }
         $.ajax({
@@ -448,13 +452,30 @@
                 char: char,
             },
             success: function (data) {
-                document.getElementById('newPasswordModal').style.display = 'block';
-                newPasswordLabel.html('Успешная отпрака итемов');
-                newPasswordBody.html(data);
+                document.getElementById('moveCharacterModal').style.display = 'block';
+                document.getElementById('moveCharacterModal').style.opacity = '1';
+                moveCharacterLabel.html('Успешная отпрака итемов');
+                moveCharacterBody.html(data);
                 setTimeout(function(){
-                    document.getElementById('newPasswordModal').style.display = 'none';
+                    document.getElementById('moveCharacterModal').style.opacity = '0';
+                    document.getElementById('moveCharacterModal').style.display = 'none';
                 }, 5000);
+                let elements = elem_id.split(" ");
+                let elements_count = elem_count.split(" ");
+                for (let i = 0; i < elements.length; i++){
+                    if(elements[i] !== ''){
+                        let inputMax = document.getElementById("item_count" + elements[i]);
+                        let max = inputMax.getAttribute("max");
 
+                        if(max === elements_count[i]){
+                            document.getElementById("item" + elements[i]).remove();
+                        } else {
+                            let newMax = Number(max - elements_count[i]);
+                            inputMax.setAttribute("max", newMax);
+                            inputMax.value = newMax;
+                        }
+                    }
+                }
             }
         });
     });

@@ -20,12 +20,13 @@ class Controller extends BaseController
     public function data(){
         $orders = DB::table('orders')
             ->orderByDesc('updated_at')
-            ->paginate(6);
+            ->take(6)
+            ->get();
         $data = [
             'latest_news' => $this->latestNews(),
             'latest_forum' => $this->lastForum(),
             'seo' => $this->seo(),
-            'orders' => $orders,
+            'ordersAll' => $orders,
             'header_shop' => $this->headerShop(),
         ];
         $header_cart = $this->headerCart();

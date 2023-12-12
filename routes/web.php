@@ -92,11 +92,16 @@ Route::group($back,function(){
         Route::post('/seo/delete/{id}',['uses' => 'SeoController@delete','as'=>'admin-seo-delete']);
         // Accounts
         Route::get('/account',['uses' => 'AccountsController@index','as' => 'admin-accounts-index']);
+        //Character
+        Route::get('/character/{id}',['uses' => 'AccountsController@characterIndex','as' => 'admin-character-index']);
+        Route::post('/character/edit/{id}',['uses' => 'AccountsController@characterEdit','as' => 'admin-character-edit']);
+        Route::post('/character/delete/{id}',['uses' => 'AccountsController@characterDelete','as' => 'admin-character-delete']);
         //orders
-        Route::match(['GET','POST'],'/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
-        Route::match(['GET','POST'],'/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);
-        Route::match(['GET','POST'],'/orders/edit/{id}',['uses' => 'OrdersController@edit','as'=>'admin-orders-edit']);
-        Route::match(['GET','POST'],'/orders/delete/{id}',['uses' => 'OrdersController@delete','as'=>'admin-orders-delete']);
+        Route::get('/orders',['uses' => 'OrdersController@index','as'=>'admin-orders-index']);
+        Route::post('/orders/search',['uses' => 'OrdersController@search','as'=>'admin-orders-search']);
+        Route::post('/orders/add',['uses' => 'OrdersController@add','as'=>'admin-orders-add']);
+        Route::post('/orders/edit/{id}',['uses' => 'OrdersController@edit','as'=>'admin-orders-edit']);
+        Route::post('/orders/delete/{id}',['uses' => 'OrdersController@delete','as'=>'admin-orders-delete']);
         //items
         Route::match(['GET','POST'],'/items',['uses' => 'ItemsController@index','as'=>'admin-items-index']);
         Route::match(['GET','POST'],'/items/add',['uses' => 'ItemsController@add','as'=>'admin-items-add']);
