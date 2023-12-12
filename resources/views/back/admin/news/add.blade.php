@@ -16,7 +16,7 @@
                                     {{ $item->name }}
                                 </div>
                                 <div class="col-md-3">
-                                    <input class="form-check-input" type="radio" name="tag" value="{{ $item->name }}">
+                                    <input class="form-check-input" type="radio" name="tag" value="{{ $item->id }}">
                                 </div>
                             </div>
                         </div>

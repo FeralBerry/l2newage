@@ -119,7 +119,7 @@ Route::group($back,function(){
         Route::post('/news/add',['uses' => 'NewsController@addNews','as'=>'admin-news-add']);
         Route::get('/news/edit/{id}',['uses' => 'NewsController@edit','as'=>'admin-news-edit-index']);
         Route::post('/news/edit/{id}',['uses' => 'NewsController@editNews','as'=>'admin-news-edit']);
-        Route::post('/news/delete/{id}',['uses' => 'NewsController@delete','as'=>'admin-news-delete']);
+        Route::get('/news/delete/{id}',['uses' => 'NewsController@delete','as'=>'admin-news-delete']);
         //tags
         Route::match(['GET','POST'],'/tags',['uses' => 'TagsController@index','as'=>'admin-tags-index']);
         Route::match(['GET','POST'],'/tags/add',['uses' => 'TagsController@add','as'=>'admin-tags-add']);
