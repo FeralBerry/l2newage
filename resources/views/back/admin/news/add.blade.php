@@ -23,7 +23,7 @@
                     @endforeach
                 </div>
                 <label for="news">Описание</label>
-                <textarea id="news"></textarea>
+                <textarea name="description" id="news"></textarea>
                 <button class="btn btn-success" style="margin-top: 10px" type="submit">Добавить</button>
             </form>
         </div>

@@ -9,6 +9,7 @@
                 <input id="title" name="title" class="form-control" value="{{ $item->name }}">
                 <label for="img">Изображение</label>
                 <input type="file" id="img" name="img">
+                <input type="text" id="old_img" name="old_img" value="{{ $item->img }}">
                 <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px">
                     @foreach($tag_name as $tag)
                         <div class="col-md-4">
@@ -24,8 +25,8 @@
                     @endforeach
                 </div>
                 <label for="news">Описание</label>
-                <textarea id="news">{{ $item->description }}</textarea>
-                <button class="btn btn-success" style="margin-top: 10px" type="submit">Добавить</button>
+                <textarea name="description" id="news">{{ $item->description }}</textarea>
+                <button class="btn btn-success" style="margin-top: 10px" type="submit">Изменить</button>
             </form>
             @endforeach
         </div>

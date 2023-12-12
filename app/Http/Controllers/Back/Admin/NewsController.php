@@ -70,6 +70,9 @@ class NewsController extends AdminBaseController
     }
     public function editNews(Request $request,$id){
         $img_name = '';
+        if($request['old_img'] !== null){
+            $img_name = $request['old_img'];
+        }
         if ($request->hasFile('img')) {
             $img_name = $this->fileMove($request->file('img'),$this->path);
         }
@@ -82,6 +85,7 @@ class NewsController extends AdminBaseController
             ]);
         return redirect()->route('admin-news-index');
     }
+
     public function delete($id){
         foreach ($this->newsDB($id)->get() as $item){
             if($this->checkFileExists($this->path . $item->img) && $item->img !== NULL && $item->img !== "" ){
