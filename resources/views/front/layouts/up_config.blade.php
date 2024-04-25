@@ -5,6 +5,7 @@
         @if(Route::current()->getName() == $item->route_name)
         <title>{{ $item->title ?? 'L2NewAge' }}</title>
         <meta name="description" content="{{ $item->description ?? '' }}">
+        <meta name="keywords" content="{{ $item->keywords ?? '' }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         @else
             <title>L2NewAge</title>
@@ -13,6 +14,7 @@
         @endif
     @endforeach
 @endif
+<link rel=canonical href="https://l2newage.ru/" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Icon -->
 <link rel="icon" type="image/png" href="{{ asset('front/img/icon.png') }}">

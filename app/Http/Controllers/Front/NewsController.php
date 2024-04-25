@@ -16,6 +16,7 @@ class NewsController extends FrontController
     public function index(){
         $news = DB::connection('mysql')
             ->table('news')
+            ->orderByDesc("created_at")
             ->paginate($this->perpage);
         $tag_name = TagName::all();
         $data = array_merge($this->data(),

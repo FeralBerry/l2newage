@@ -28,6 +28,10 @@
 <script>
     $(window).load(function(){
         $('.main-preloader').delay(1000).fadeOut('slow');
+        var link = "{{ asset('front/video/bg.mp4') }}";
+        setTimeout(function(){
+            document.getElementById('front_video').innerHTML = "<video width='100%' src='" + link + "' autoplay muted loop></video>";
+        }, 1000);
     });
     function plus_f(id){
         var num_value = document.getElementById("num_f"+id).value;

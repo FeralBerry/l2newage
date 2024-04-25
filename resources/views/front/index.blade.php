@@ -2,10 +2,8 @@
 @section("content")
     <!-- Banner -->
     <section class="youplay-banner banner-top youplay-banner-parallax">
-        <div class="image">
-            <video width="100%" src="{{ asset('front/video/bg.mp4') }}" autoplay muted loop>
+        <div class="image" id="front_video">
 
-            </video>
         </div>
 
         <div class="info">

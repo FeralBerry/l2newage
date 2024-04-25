@@ -18,19 +18,24 @@ class UsersController extends AdminBaseController
         return view('back.admin.users.index',$data);
     }
     public function add(Request $request){
+        if ($request->isMethod("post")){
+
+        }
         $data = array_merge($this->data(),[
 
         ]);
         return view('back.admin.users.add',$data);
     }
     public function edit(Request $request, $id){
+        if ($request->isMethod("post")){
+
+        }
         $data = array_merge($this->data(),[
 
         ]);
         return view('back.admin.users.edit',$data);
     }
     public function delete($id){
-
         return redirect()->route('admin-users-index');
     }
 

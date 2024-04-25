@@ -67,8 +67,6 @@ class OrdersController extends AdminBaseController
         return view('back.admin.orders.edit',$data);
     }
     public function delete($id){
-
         return redirect()->route('admin-orders-index');
     }
-
 }
