@@ -25,18 +25,16 @@
                     @php
                         $img = explode('||',$item->img);
                     @endphp
-
-                        <div class="youplay-slider gallery-popup pull-right">
-                            @foreach($img as $i)
-                                <div id="item">
-                                    <a href="#" class="angled-img pull-left">
-                                        <div class="img">
-                                            <img src="{{ asset('front/img/shop') }}/{{ $i }}" alt="">
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-
+                    <div class="youplay-slider gallery-popup pull-right">
+                        @foreach($img as $i)
+                            <div id="item">
+                                <a href="#" class="angled-img pull-left">
+                                    <div class="img">
+                                        <img src="{{ asset('front/img/shop') }}/{{ $i }}" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- /Slider -->
                     <h3>Описание товара:</h3>
@@ -106,7 +104,7 @@
                 <h4 class="block-title">Купленные товары</h4>
                 <div class="block-content p-0">
                     <!-- Single News Block -->
-                    @foreach($orders as $order)
+                    @foreach($ordersAll as $order)
                         @foreach($shop as $item)
                             @if($order->shop_id == $item->id)
                                 <div class="row youplay-side-news">
@@ -129,14 +127,13 @@
                                     <div class="col-xs-9 col-md-8">
                                         <h4 class="ellipsis"><a href="{{ route('shop-product',$item->id) }}" title="$item->title">{{$item->title}}</a></h4>
                                         @php $new_price = $item->price - ($item->price * $item->percent  / 100); @endphp
-                                        <div class="price">&#8381;{{ $new_price }} <sup><del>&#8381;{{ $item->price }}</del></sup><span class="badge pull-right bg-warning">{{ $order->count }}</span>
-                                        </div>
+                                        <div class="price">&#8381;{{ $new_price }} <sup><del>&#8381;{{ $item->price }}</del></sup><span class="badge pull-right bg-warning">{{ $order->count }}</span></div>
                                     </div>
+                                </div>
                                 @endif
                                 @endforeach
                                 @endforeach
                                 <!-- /Single News Block -->
-                                </div>
                 </div>
                 <!-- /Side Popular News -->
             </div>

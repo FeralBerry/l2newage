@@ -77,7 +77,7 @@
                 <h4 class="block-title">Купленные товары</h4>
                 <div class="block-content p-0">
                     <!-- Single News Block -->
-                    @foreach($orders as $order)
+                    @foreach($ordersAll as $order)
                         @foreach($shop as $item)
                             @if($order->shop_id == $item->id)
                                 <div class="row youplay-side-news">

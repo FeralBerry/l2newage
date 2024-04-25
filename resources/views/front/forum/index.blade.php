@@ -46,7 +46,6 @@
             <li class="body">
                 @foreach($forum as $item)
                 <ul>
-
                     <li class="cell-icon">
                         <i class="fa fa-folder-open-o"></i>
                     </li>
@@ -84,7 +83,6 @@
                             @endforeach
                         </p>
                     </li>
-
                 </ul>
                 @endforeach
             </li>
