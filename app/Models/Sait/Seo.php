@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shop extends Model
+class Seo extends Model
 {
-    protected $table = 'shop';
+    protected $table = 'seo';
     protected $fillable = [
         'id',
         'title',
-        'item_id',
-        'price',
-        'img',
+        'description',
+        'keywords',
+        'url',
         'created_at',
         'updated_at',
     ];

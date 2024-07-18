@@ -3,17 +3,22 @@
 namespace App\Models\Knowledge;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Items extends Model
 {
-    protected $connection = 'mysql';
-    protected $table = 'knowledge_items';
+    protected $table = 'items';
     protected $fillable = [
         'id',
-        'title',
+        'name',
+        'type',
+        'is_quest',
+        'is_drop',
+        'is_trade',
         'description',
         'craft_at',
         'created_at',
         'updated_at',
     ];
+
 }

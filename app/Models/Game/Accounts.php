@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Game;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Accounts extends Model
 {
@@ -23,4 +24,9 @@ class Accounts extends Model
         'hop4',
         'created_time',
     ];
+    public function getCount(): int {
+        return DB::connection("l2flame")
+            ->table("accounts")
+            ->count();
+    }
 }

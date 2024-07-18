@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForumPosts extends Model
+class Forum extends Model
 {
-    protected $table = 'forum_posts';
+    protected $table = 'forum';
     protected $fillable = [
         'id',
+        'title',
         'description',
-        'forum_id',
         'user_id',
+        'tag_name_id',
         'created_at',
         'updated_at',
     ];

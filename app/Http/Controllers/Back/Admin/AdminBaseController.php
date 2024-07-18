@@ -15,7 +15,7 @@ class AdminBaseController extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     protected function data(){
         $data = [
-
+            'allRules' => $this->getAllRules(),
         ];
         return $data;
     }
@@ -36,5 +36,11 @@ class AdminBaseController extends BaseController
         $destinationPath = public_path($path);
         $file->move($destinationPath, $img_name);
         return $img_name;
+    }
+    protected function getAllRules()
+    {
+        return DB::connection("mysql")
+            ->table('rule')
+            ->get();
     }
 }

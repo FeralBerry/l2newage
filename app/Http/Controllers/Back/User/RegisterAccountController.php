@@ -27,7 +27,7 @@ class RegisterAccountController extends Controller
                     ->table('accounts')
                     ->where('login',$request['login'])
                     ->get();
-                if($alreadyLogin == null){
+                if(isEmpty($alreadyLogin)){
                     if (Auth::user()->email !== null){
                         DB::connection('l2flame')
                             ->table('accounts')

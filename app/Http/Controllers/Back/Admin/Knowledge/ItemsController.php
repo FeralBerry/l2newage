@@ -6,5 +6,7 @@ use App\Http\Controllers\Back\Admin\AdminBaseController;
 
 class ItemsController extends AdminBaseController
 {
+    public function armor(){
 
+    }
 }

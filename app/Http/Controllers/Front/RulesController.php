@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Models\Rules;
 use Illuminate\Support\Facades\DB;
 
 class RulesController extends FrontController

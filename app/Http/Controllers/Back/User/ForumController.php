@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Back\User;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Forum;
+use App\Models\Sait\Forum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 
 
 class ForumController extends Controller
@@ -20,7 +19,6 @@ class ForumController extends Controller
             'порно',
             'CS',
             'секс знакомства',
-
         ];
         return $validSTR;
     }

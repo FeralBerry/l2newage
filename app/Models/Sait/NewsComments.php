@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Forum extends Model
+class NewsComments extends Model
 {
-    protected $table = 'forum';
+    protected $table = 'news_comments';
     protected $fillable = [
         'id',
-        'title',
-        'description',
         'user_id',
-        'tag_name_id',
+        'news_id',
         'created_at',
         'updated_at',
+        'text',
     ];
 }

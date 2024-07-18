@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 
-use App\Http\Controllers\Controller;
-use App\Models\Item;
-use App\Models\Partner;
-use App\Models\Sales;
-use App\Models\Shop;
-use App\Models\TagName;
+use App\Models\Sait\Partner;
+use App\Models\Sait\Shop;
+use App\Models\Sait\TagName;
 
 
 class IndexController extends FrontController
@@ -21,8 +18,10 @@ class IndexController extends FrontController
         $tag_name = TagName::all();
         $partner = Partner::all();
         $shop_purchased = Shop::all()
+            ->where('closed_sale', '=',0)
             ->where('purchased',1);
         $shop_sales = Shop::all()
+            ->where('closed_sale', '=',0)
             ->where('sales',1);
         $data = array_merge($this->data(),
                             [

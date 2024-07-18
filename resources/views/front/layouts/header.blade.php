@@ -84,9 +84,9 @@
                     </a>
                     <div class="dropdown-menu">
                         <ul role="menu">
-                            <li><a href="{{ route('rules-index',1) }}">Лицензионное соглашение</a></li>
-                            <li><a href="{{ route('rules-index',2) }}">Правила пользования</a></li>
-                            <li><a href="{{ route('rules-index',3) }}">Условия установки дополнительных компонентов</a></li>
+                            @foreach($allRules as $item)
+                                <li><a href="{{ route('rules-index',$item->id) }}">{{ $item->name }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </li>

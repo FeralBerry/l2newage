@@ -52,6 +52,10 @@
                 </div>
                 <!-- /Post Text -->
                 @if(Auth::user())
+                    <div class="col-xs-12" style="color: red">
+                        После покупки все товары попадают в личный кабинет на сайте,
+                        дальше вы их можете отправить на определенного персонажа на любом своём аккаунте.
+                    </div>
                     <div class="col-xs-12">
                         <a id="add_cart" class="btn btn-default db">В корзину</a>
                     </div>

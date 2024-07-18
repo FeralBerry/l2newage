@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 
-use App\Http\Controllers\Controller;
-use App\Models\Forum;
-use App\Models\ForumPosts;
-use App\Models\TagName;
-use App\Models\User;
+use App\Models\Sait\Forum;
+use App\Models\Sait\ForumPosts;
+use App\Models\Sait\TagName;
+use App\Models\Sait\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ForumController extends FrontController

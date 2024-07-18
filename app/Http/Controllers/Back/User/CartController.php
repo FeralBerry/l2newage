@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Back\User;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
-use App\Models\Shop;
+use App\Models\Sait\Cart;
+use App\Models\Sait\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 
 
 class CartController extends Controller

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\HighFive;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Test extends Model
+class TagName extends Model
 {
-    protected $connection = 'mysql2';
-    protected $table = 'test';
+    protected $table = 'tag_name';
     protected $fillable = [
         'id',
         'name',

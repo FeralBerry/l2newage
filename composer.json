@@ -13,7 +13,8 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
-        "yoomoney/yookassa-sdk-php": "^2.6"
+        "yoomoney/yookassa-sdk-php": "^2.6",
+      "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

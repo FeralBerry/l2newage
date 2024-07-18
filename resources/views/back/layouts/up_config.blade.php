@@ -63,7 +63,8 @@
 <!-- <link rel="stylesheet" type="text/css" href="../assets/youplay/css/youplay-rtl.css" /> -->
 @if(
     Route::is('admin-rules-edit') || Route::is('admin-rules-index') ||
-    Route::is('admin-news-edit-index') || Route::is('admin-news-add-index')
+    Route::is('admin-news-edit-index') || Route::is('admin-news-add-index') ||
+    Route::is('admin-items-edit') || Route::is('admin-items-add')
 )
 <script src="{{ asset('front/js/tinymce/tinymce.min.js') }}"></script>
 <script>

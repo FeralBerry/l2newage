@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TagName extends Model
+class Rules extends Model
 {
-    protected $table = 'tag_name';
+    protected $table = 'rule';
     protected $fillable = [
         'id',
-        'name',
+        'description',
         'created_at',
         'updated_at',
     ];

@@ -6,12 +6,29 @@
                 <div class="item angled-bg" style="min-height: 100px">
                     <div class="row">
                         <div class="col-xs-6 col-md-9">
+                            <h4 class="ml-20"><i class="fa fa-user"></i> Seo</h4>
+                        </div>
+                        <div class="col-xs-6 col-md-3 align-right">
+                            <div class="price">
+
+                            </div>
+                        </div>
+                        <div class="align-right">
+                            <a href="{{ route('admin-seo-index') }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item angled-bg" style="min-height: 100px">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-9">
                             <h4 class="ml-20"><i class="fa fa-user"></i> Пользователей</h4>
                         </div>
                         <div class="col-xs-6 col-md-3 align-right">
                             <div class="price">
-                                @if(isset($count_users))
-                                    {{ $count_users }}
+                                @if(isset($count_sait_account))
+                                    {{ $count_sait_account }}
                                 @else
                                     0
                                 @endif
@@ -27,12 +44,12 @@
                 <div class="item angled-bg" style="min-height: 100px">
                     <div class="row">
                         <div class="col-xs-6 col-md-9">
-                            <h4 class="ml-20"><i class="fa fa-id-card-o"></i> Аккаунтов Highfive</h4>
+                            <h4 class="ml-20"><i class="fa fa-id-card-o"></i> Аккаунтов игровых</h4>
                         </div>
                         <div class="col-xs-6 col-md-3 align-right">
                             <div class="price">
-                                @if(isset($count_hf_accounts))
-                                    {{ $count_hf_accounts }}
+                                @if(isset($count_game_account))
+                                    {{ $count_game_account }}
                                 @else
                                     0
                                 @endif
@@ -157,6 +174,18 @@
                         </div>
                         <div class="align-right">
                             <a href="{{ route('admin-gifts-index') }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="item angled-bg" style="min-height: 100px">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <h4 class="ml-20"><i class="fa fa-id-card-o"></i> Документы</h4>
+                        </div>
+                        <div class="align-right">
+                            <a href="{{ route('admin-rules-index',1) }}" class="btn btn-xs" style="margin-right: 30px;margin-bottom: 10px">Подробнее</a>
                         </div>
                     </div>
                 </div>

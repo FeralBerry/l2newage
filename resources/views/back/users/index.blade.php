@@ -200,43 +200,27 @@
                                 <div class="col-md-3">
                                     Проверить статус
                                 </div>
-                                @php
-                                    $payment_id = 0;
-                                @endphp
-                                @foreach($yookassa as $item)
-                                    <div class="col-md-12" style="margin-top: 10px">
-                                        <div class="col-md-9" style="@if($payment_id !== $item->payment_id)padding-top:10px;@else margin-top:-10px;@endif background: rgba(255,255,255,.1);transform: skew(-7deg);">
-                                            @if($payment_id !== $item->payment_id)
-                                                {{ $item->description }}, Стоимость {{ $item->amount }}<br>
+                                @foreach($orders as $order)
+                                        <div class="col-md-12" style="margin-top: 10px">
+                                            <div class="col-md-9" style="background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                                Заказ №{{ $order->id }}, Стоимостью {{ $order->amount /100 }}<br>
                                                 <div class="col-md-6">
-                                                    Что в заказе было:
+                                                    Что в заказе было:<br>
+                                                    @foreach($ordersItems as $item)
+                                                        @for($i = 0;$i<count($item);$i++)
+                                                            @if($item[$i]->order_id == $order->id)
+                                                                {{ $item[$i]->name }} {{ $item[$i]->count }}<br>
+                                                            @endif
+                                                        @endfor
+                                                    @endforeach
                                                 </div>
-                                            @endif
-                                            @if($payment_id == $item->payment_id)
-                                                <div class="col-md-6">
-
-                                                </div>
-                                            @endif
-                                            <div class="col-md-6">
-                                                {{ $item->title }}<br>
+                                            </div>
+                                            <div class="col-md-3" style="background: rgba(255,255,255,.1);transform: skew(-7deg);">
+                                                @if($order->status == 1)
+                                                    Успешный
+                                                @endif
                                             </div>
                                         </div>
-                                        <div class="col-md-3" style="background: rgba(255,255,255,.1);transform: skew(-7deg);">
-                                            @if($payment_id !== $item->payment_id)
-                                                @if($item->status == 'succeeded')
-                                                    Успешный
-                                                @elseif($item->status == 'pending')
-                                                    <a href="{{ $item->payment_link }}">Завершить платеж</a>
-                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
-                                                @elseif($item->status == 'waiting_for_capture')
-                                                    <a href="{{ route('payment-success',['id' => $item->id,'user_id' => Auth::user()->id]) }}">Проверить платеж</a>
-                                                @endif
-                                                @php
-                                                    $payment_id = $item->payment_id;
-                                                @endphp
-                                            @endif
-                                        </div>
-                                    </div>
                                 @endforeach
                             </div>
                         </div>

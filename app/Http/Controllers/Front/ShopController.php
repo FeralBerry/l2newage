@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 
-use App\Http\Controllers\Controller;
-use App\Models\FilterName;
 use App\Models\Item;
-use App\Models\Orders;
-use App\Models\Shop;
-use App\Models\TagName;
+use App\Models\Sait\FilterName;
+use App\Models\Sait\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +17,7 @@ class ShopController extends FrontController
 
         $filter_name = FilterName::all();
         $shop = DB::table('shop')
+            ->where('closed_sale', '=',0)
             ->paginate(60);
         $mag = '';
         $data = array_merge($this->data(),

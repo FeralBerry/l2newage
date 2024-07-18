@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 
-use App\Http\Controllers\Controller;
-
-use App\Models\NewsComments;
-use App\Models\TagName;
+use App\Models\Sait\TagName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

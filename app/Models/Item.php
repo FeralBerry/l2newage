@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Item extends Model
 {
@@ -17,4 +18,9 @@ class Item extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function getCount() : int {
+        return DB::table("item")
+            ->count();
+    }
 }

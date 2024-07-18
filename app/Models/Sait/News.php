@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class News extends Model
 {
@@ -16,4 +17,9 @@ class News extends Model
         'created_at',
         'updated_at',
     ];
+    public function getCount() : int
+    {
+        return DB::table("news")
+            ->count();
+    }
 }

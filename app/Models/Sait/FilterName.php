@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Partner extends Model
+class FilterName extends Model
 {
-    protected $table = 'partner';
+    protected $table = 'filter_name';
     protected $fillable = [
         'id',
-        'kod',
+        'name',
+        'key_word',
         'created_at',
         'updated_at',
     ];

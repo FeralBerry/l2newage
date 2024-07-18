@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Back\Admin;
 
 
 
-use App\Models\Forum;
-use App\Models\News;
+use App\Models\Sait\Forum;
+use App\Models\Sait\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TagsController extends AdminBaseController
 {
-    public function index()
-    {
+    public function index() {
         $tags = DB::table('tag_name')
             ->paginate(30);
         $data = array_merge($this->data(),[
@@ -20,19 +19,48 @@ class TagsController extends AdminBaseController
         ]);
         return view('back.admin.tags.index',$data);
     }
-    public function add(Request $request){
+    public function add(Request $request)
+    {
+        if ($request->isMethod("post")) {
+            DB::table('tag_name')
+                ->insert([
+                    'name' => $request['tag_name']
+                ]);
+            return redirect()->route("admin-tags-index");
+        }
         $data = array_merge($this->data(),[
 
         ]);
         return view('back.admin.tags.add',$data);
     }
-    public function edit(Request $request, $id){
+    public function edit(Request $request, $id) {
+        $tag = DB::table("tag_name")
+            ->where('id',$id)
+            ->get();
+        $tag_name = "";
+        if(!empty($tag)){
+            foreach ($tag as $item){
+                $tag_name = $item->name;
+            }
+        } else {
+            return redirect()->route("admin-tags-index");
+        }
+        if ($request->isMethod("post")) {
+            DB::table('tag_name')
+                ->where('id',$id)
+                ->update([
+                    'name' => $request['tag_name']
+                ]);
+            return redirect()->route("admin-tags-index");
+        }
         $data = array_merge($this->data(),[
-
+            'id' => $id,
+            'tag_name' => $tag_name
         ]);
         return view('back.admin.tags.edit',$data);
     }
-    public function delete($id){
+    public function delete($id)
+    {
         $forum = Forum::all();
         $news = News::all();
         $new_tags_forum = '';

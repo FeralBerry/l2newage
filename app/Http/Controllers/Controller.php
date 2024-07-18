@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\Forum;
-use App\Models\News;
-use App\Models\Seo;
-use App\Models\Shop;
+use App\Models\Sait\Cart;
+use App\Models\Sait\Forum;
+use App\Models\Sait\News;
+use App\Models\Sait\Seo;
+use App\Models\Sait\Shop;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -19,7 +19,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function data(){
         $orders = DB::table('orders')
-            ->orderByDesc('updated_at')
+            ->join("orders_items","orders_items.order_id","=","orders.id")
+            ->orderByDesc('orders_items.updated_at')
+            ->where("orders.status","=",1)
             ->take(6)
             ->get();
         $data = [
@@ -28,6 +30,7 @@ class Controller extends BaseController
             'seo' => $this->seo(),
             'ordersAll' => $orders,
             'header_shop' => $this->headerShop(),
+            'allRules' => $this->getAllRules(),
         ];
         $header_cart = $this->headerCart();
         $header_shop = $this->headerShop();
@@ -54,8 +57,7 @@ class Controller extends BaseController
         return $data;
     }
     public function latestNews(){
-        $news = News::all()->sortByDesc('created_at')->take(5);
-        return $news;
+        return News::all()->sortByDesc('created_at')->take(5);
     }
     public function seo(){
         $seo = Seo::all();
@@ -78,5 +80,10 @@ class Controller extends BaseController
     public function headerShop(){
         $shop = Shop::all();
         return $shop;
+    }
+    public function getAllRules(){
+        return DB::connection("mysql")
+            ->table("rule")
+            ->get();
     }
 }

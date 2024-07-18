@@ -61,7 +61,10 @@
                     Всего: <strong>&#8381;{{ $header_price }}</strong>
                 </div>
                 <div class="align-right">
-                    <a href="{{ route('payment-create') }}" class="btn btn-lg">Оформить покупку</a>
+                    <form method="post" action="{{ route('payment-create') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-lg">Оформить покупку</button>
+                    </form>
                 </div>
             </div>
             @else

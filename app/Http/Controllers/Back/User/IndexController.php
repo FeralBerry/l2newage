@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Back\User;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Shop;
+use App\Models\Sait\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,15 +22,16 @@ class IndexController extends Controller
         $orders = DB::connection('mysql')
             ->table('orders')
             ->where('user_id',Auth::user()->id)
+            ->where('status',"=",1)
             ->get();
-        $yookassa = DB::connection('mysql')
-            ->table('orders')
-            ->join('shop','shop.id','=','orders.shop_id')
-            ->join('yookassa','orders.payment_id','=','yookassa.payment_id')
-            ->where('yookassa.user_id',Auth::user()->id)
-            ->select('yookassa.description','yookassa.amount','orders.payment_id','yookassa.status','shop.title','yookassa.payment_link','yookassa.id')
-            ->where('yookassa.status','!=','cancelled')
-            ->get();
+        $ordersItems = array();
+        foreach ($orders as $order){
+            $items = DB::connection('mysql')
+                ->table('orders_items')
+                ->where('order_id',$order->id)
+                ->get();
+            $ordersItems[] = $items;
+        }
         $chars = DB::connection('l2flame')
             ->table('accounts')
             ->where('email',Auth::user()->email)
@@ -52,7 +53,7 @@ class IndexController extends Controller
                 'shop' => $shop,
                 'paid_item' => $paid_item,
                 'orders' => $orders,
-                'yookassa' => $yookassa,
+                'ordersItems' => $ordersItems,
             ]);
         return view('back.users.index',$data);
     }

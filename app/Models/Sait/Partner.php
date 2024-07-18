@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class Partner extends Model
 {
-    protected $table = 'cart';
+    protected $table = 'partner';
     protected $fillable = [
         'id',
-        'user_id',
-        'shop_id',
-        'count',
+        'kod',
         'created_at',
         'updated_at',
     ];

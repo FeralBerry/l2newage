@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Armor extends Model
 {
     protected $connection = 'mysql';
-    protected $table = 'knowledge_armor';
+    protected $table = 'armor';
     protected $fillable = [
         'id',
-        'title',
-        'description',
-
+        'p_def',
+        'm_def',
+        'weight',
+        'grade',
+        'price',
         'created_at',
         'updated_at',
     ];

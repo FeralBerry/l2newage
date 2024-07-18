@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Sait;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -20,10 +21,17 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
+        'verified_link',
+        'remember_token',
         'password',
         'rate_shop',
-        'verified_link',
         'avatar',
+        'tel',
+        'role_id',
+        'news_likes',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -44,4 +52,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getCount(): int
+    {
+        return DB::table("users")
+            ->count();
+    }
 }
