@@ -108,9 +108,16 @@ Route::group($back,function(){
         Route::get('/orders/delete/{id}',['uses' => 'OrdersController@delete','as'=>'admin-orders-delete']);
         //items
         Route::get('/items',['uses' => 'ItemsController@index','as'=>'admin-items-index']);
-        Route::match(['GET','POST'],'/items/add',['uses' => 'ItemsController@add','as'=>'admin-items-add']);
-        Route::match(['GET','POST'],'/items/edit/{id}',['uses' => 'ItemsController@edit','as'=>'admin-items-edit']);
-        Route::get('/items/delete/{id}',['uses' => 'ItemsController@delete','as'=>'admin-items-delete']);
+        Route::get('/items/add',['uses' => 'ItemsController@addGet','as'=>'admin-items-add']);
+        Route::get('/items/edit/{id}',['uses' => 'ItemsController@editGet','as'=>'admin-items-edit']);
+        Route::post('/items/add',['uses' => 'ItemsController@addPost','as'=>'admin-items-add']);
+        Route::patch('/items/edit/{id}',['uses' => 'ItemsController@editPost','as'=>'admin-items-edit']);
+        Route::delete('/items/delete/{id}',['uses' => 'ItemsController@delete','as'=>'admin-items-delete']);
+        //характеристики предметов
+        Route::get('/item/{id}/characteristic',['uses' => 'ItemsController@characteristic','as'=>'admin-item-characteristic-index']);
+        Route::patch('/items/{id}/characteristic',['uses' => 'ItemsController@editCharacteristic','as'=>'admin-item-characteristic-edit']);
+        //рецепты предметов
+        //выпадающие предметы при открытии
         //paid_items
         Route::match(['GET','POST'],'/paid/items',['uses' => 'PaidItemsController@index','as'=>'admin-paid-items-index']);
         Route::match(['GET','POST'],'/paid/items/add',['uses' => 'PaidItemsController@add','as'=>'admin-paid-items-add']);
@@ -141,6 +148,13 @@ Route::group($back,function(){
         //rules
         Route::get('/rules/{id}',['uses' => 'RulesController@index','as'=>'admin-rules-index']);
         Route::post('/rules/edit/{id}',['uses' => 'RulesController@edit','as'=>'admin-rules-edit']);
+        //shop
+        Route::get('/shop',['uses' => 'ShopController@index','as'=>'admin-shop-index']);
+        Route::get('/shop/add',['uses' => 'ShopController@addGet','as'=>'admin-shop-add']);
+        Route::post('/shop/add',['uses' => 'ShopController@addPost','as'=>'admin-shop-add']);
+        Route::get('/shop/edit/{id}',['uses' => 'ShopController@editGet','as'=>'admin-shop-edit']);
+        Route::patch('/shop/edit/{id}',['uses' => 'ShopController@editPost','as'=>'admin-shop-edit']);
+        Route::delete('/shop/delete/{id}',['uses' => 'ShopController@delete','as'=>'admin-shop-delete']);
         $admin = [
             'namespace' => 'Knowledge',
             'prefix' => 'knowledge'

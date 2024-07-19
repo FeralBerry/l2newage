@@ -31,6 +31,19 @@
                     </div>
                 </li>
                 <li class="dropdown dropdown-hover ">
+                    <a href="#!" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        База <span class="caret"></span> <span class="label">знаний</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul role="menu">
+                            <li><a href="{{ route('admin-items-index') }}">Предметы</a></li>
+                        </ul>
+                        <ul role="menu">
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropdown dropdown-hover ">
                     <a href="{{ route('news-index') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Новости <span class="caret"></span> <span class="label">проекта</span>
                     </a>
